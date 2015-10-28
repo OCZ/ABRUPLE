@@ -43,6 +43,15 @@
             }
         }
 
+        public IRepository<Contest> Contests
+        {
+            get
+            {
+                return this.GetRepository<Contest>();
+            }
+            
+        }
+
         // SAVE
         public int SaveChanges()
         {

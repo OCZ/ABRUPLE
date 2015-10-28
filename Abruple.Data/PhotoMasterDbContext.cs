@@ -20,5 +20,7 @@ namespace Abruple.Data
         {
             return new PhotoMasterDbContext();
         }
+
+        public IDbSet<Contest> Contests { get; set; }
     }
 }

@@ -11,6 +11,8 @@
 
         IRepository<IdentityRole> UserRoles { get; } // NOT SURE IF IS REQUIRED
 
+        IRepository<Contest> Contests { get; } 
+
         // SAVE
         int SaveChanges();
     }
