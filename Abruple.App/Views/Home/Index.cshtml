@@ -4,4 +4,12 @@
     ViewBag.Title = "Home Page";
 }
 
+
+<br/>
+
 @Html.ActionLink("Create Contest", "Index", "Contest", routeValues: null, htmlAttributes: null)
+
+<br/>
+
+@Html.ActionLink("GET Contest Collection", "GetContest", "Contest", routeValues: new { entriesToSkip  = 0}, htmlAttributes: null)
+

@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace Abruple.App.Areas.Administration
+﻿namespace Abruple.App.Areas.Administration
 {
+    using System.Web.Mvc;
+
     public class AdministrationAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
