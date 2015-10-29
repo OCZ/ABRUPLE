@@ -5,82 +5,75 @@
 
     using Contracts;
 
-    public class PhotoMasterRepository<T> : IRepository<T>
-        where T : class 
+    public class PhotoMasterRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class
     {
-        private readonly DbContext context;
-        private readonly IDbSet<T> set;
 
-        public PhotoMasterRepository()
-            : this(new PhotoMasterDbContext())
+        private DbContext dbContext;
+        private IDbSet<TEntity> entitySet;
+
+        public PhotoMasterRepository(DbContext dbContext)
         {
+            this.dbContext = dbContext;
+            this.entitySet = dbContext.Set<TEntity>();
         }
 
-        public PhotoMasterRepository(DbContext context)
+        public IDbSet<TEntity> EntitySet
         {
-            this.context = context;
-            this.set = context.Set<T>();
+            get { return this.entitySet; }
         }
 
-        // DISPOSE
-        public void Dispose()
+        public IQueryable<TEntity> All()
         {
-            this.context.Dispose();
+            return this.entitySet;
         }
 
-        // ALL
-        public IQueryable<T> All()
+
+        public TEntity Find(object id)
         {
-            return this.set;
+            return this.entitySet.Find(id);
         }
 
-        // FIND
-        public T Find(object id)
+        public TEntity Add(TEntity entity)
         {
-            return this.set.Find(id);
+            return this.entitySet.Add(entity);
+           // return this.ChangeState(entity, EntityState.Added);
         }
 
-        // ADD
-        public void Add(T entity)
+        public TEntity Update(TEntity entity)
         {
-            this.ChangeEntityState(entity, EntityState.Added);
+            return this.ChangeState(entity, EntityState.Modified);
         }
 
-        // UPDATE
-        public void Update(T entity)
+        public void Remove(TEntity entity)
         {
-            this.ChangeEntityState(entity, EntityState.Modified);
+            this.ChangeState(entity, EntityState.Deleted);
         }
 
-        // DELETE
-        public void Delete(T entity)
+        public TEntity Remove(object id)
         {
-            this.ChangeEntityState(entity, EntityState.Deleted);
+            var entity = this.Find(id);
+            this.Remove(entity);
+            return entity;
         }
 
-        // DELETE ID
-        public void Delete(object id)
+        
+       public void SaveChanges()
         {
-            this.Delete(this.Find(id));
+            this.dbContext.SaveChanges();
         }
 
-        // SAVE
-        public int SaveChanges()
+        private TEntity ChangeState(TEntity entity, EntityState state)
         {
-            return this.context.SaveChanges();
-        }
-
-        // CHANGE ENTITY STATE
-        private void ChangeEntityState(T entity, EntityState state)
-        {
-            var entry = this.context.Entry(entity);
-
+            
+            var entry = this.dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                this.set.Attach(entity);
+                this.entitySet.Attach(entity);
             }
 
             entry.State = state;
+            return entity;
         }
     }
 }

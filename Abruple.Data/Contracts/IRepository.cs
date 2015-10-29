@@ -1,30 +1,21 @@
 ﻿namespace Abruple.Data.Contracts
 {
-    using System;
     using System.Linq;
 
-    public interface IRepository<T> : IDisposable
-        where T : class
+    public interface IRepository<T>
     {
-        // ALL
         IQueryable<T> All();
 
-        // FIND
         T Find(object id);
 
-        // ADD
-        void Add(T entity);
+        T Add(T entity);
 
-        // UPDATE
-        void Update(T entity);
+        T Update(T entity);
 
-        // DELETE
-        void Delete(T entity);
+        T Remove(object id);
 
-        // DELETE BY ID
-        void Delete(object id);
+        void Remove(T entity);
 
-        // SAVE
-        int SaveChanges();
+        void SaveChanges();
     }
 }

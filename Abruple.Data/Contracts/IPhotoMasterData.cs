@@ -5,15 +5,28 @@
 
     public interface IPhotoMasterData
     {
-        // TODO: ADD EACH DATABASE ENTITY
 
+       
+        IRepository<Notification> Notifications { get; }
+
+        IRepository<Prize> Prizes { get; }
+
+        IRepository<Vote> Votes { get; }
+
+        IRepository<ContestEntry> ContestEntries { get; }
+
+        IRepository<Contest> Contests { get; }
+        
         IRepository<User> Users { get; } // NOT SURE IF IS REQUIRED
 
         IRepository<IdentityRole> UserRoles { get; } // NOT SURE IF IS REQUIRED
 
-        IRepository<Contest> Contests { get; } 
+      
+       
+       
 
-        // SAVE
-        int SaveChanges();
+     
+
+        void SaveChanges();
     }
 }
