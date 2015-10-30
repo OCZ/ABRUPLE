@@ -31,6 +31,7 @@
                 case "past": contests = contests.Where(c => c.State != ContestState.Active); break;
             }
 
+            // IF FILTER DOESTN MATCH CASES => RETURN ALL
             var result = contests.OrderByDescending(c => c.CreatedOn);
 
             return result;
@@ -89,7 +90,5 @@
             }
             return null;
         }
-     
-       
     }
 }
