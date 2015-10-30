@@ -19,6 +19,7 @@
         }
 
         // INDEX
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return this.View();
@@ -29,14 +30,16 @@
         [HttpGet]
         public ActionResult GetContests(int entriesToSkip = 0, string filter = "active")
         {
+            // SIMULATE INTERNET CONNECTION
+            System.Threading.Thread.Sleep(1000);
+
             if (!Request.IsAjaxRequest())
             {
                 return HttpNotFound();
             }
 
-            System.Threading.Thread.Sleep(1000);
-            var totalEntries = this.Data.Contests.All().Count();
             const int entriesToLoad = 10;
+            var totalEntries = this.Data.Contests.All().Count();
 
             entriesToSkip *= entriesToLoad;
 
@@ -47,10 +50,7 @@
                          .Take(entriesToLoad)
                          .ProjectTo<ContestConciseViewModel>();
 
-                // TEST
                 return this.PartialView("_contestsListPartial", result);
-
-                //return this.Json(result, JsonRequestBehavior.AllowGet);
             }
 
             return null;

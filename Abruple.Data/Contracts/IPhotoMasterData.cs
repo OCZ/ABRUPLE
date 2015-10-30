@@ -5,8 +5,6 @@
 
     public interface IPhotoMasterData
     {
-
-       
         IRepository<Notification> Notifications { get; }
 
         IRepository<Prize> Prizes { get; }
@@ -17,15 +15,9 @@
 
         IRepository<Contest> Contests { get; }
         
-        IRepository<User> Users { get; } // NOT SURE IF IS REQUIRED
+        IRepository<User> Users { get; }
 
-        IRepository<IdentityRole> UserRoles { get; } // NOT SURE IF IS REQUIRED
-
-      
-       
-       
-
-     
+        IRepository<IdentityRole> UserRoles { get; }
 
         void SaveChanges();
     }

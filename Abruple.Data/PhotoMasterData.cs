@@ -82,9 +82,7 @@
             if (!this.repositories.ContainsKey(typeof(T)))
             {
                 var type = typeof(PhotoMasterRepository<T>);
-                this.repositories.Add(
-                    typeof(T),
-                    Activator.CreateInstance(type, this.dbContext));
+                this.repositories.Add(typeof(T), Activator.CreateInstance(type, this.dbContext));
             }
 
             return (IRepository<T>)this.repositories[typeof(T)];

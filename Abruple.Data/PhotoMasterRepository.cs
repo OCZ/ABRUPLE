@@ -28,7 +28,6 @@
             return this.entitySet;
         }
 
-
         public TEntity Find(object id)
         {
             return this.entitySet.Find(id);
@@ -65,7 +64,6 @@
 
         private TEntity ChangeState(TEntity entity, EntityState state)
         {
-            
             var entry = this.dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
