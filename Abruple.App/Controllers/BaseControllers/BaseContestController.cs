@@ -35,5 +35,61 @@
 
             return result;
         }
+
+        [NonAction]
+        public Contest GetContestById(int id)
+        {
+            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
+            return contest;
+        }
+
+
+        [NonAction]
+        public bool? AllowedVoting(int contestId)
+        {
+            var contest = this.GetContestById(contestId);
+            if (contest != null)
+            {
+                if (contest.VotingStrategy == EntryType.Open)
+                {
+                    return true;
+                }
+                if (this.UserProfile == null)
+                {
+                    return false;
+                }
+                if (contest.Committee.Contains(this.UserProfile))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return null;
+        }
+
+        [NonAction]
+        public bool? AllowedParticipation(int contestId)
+        {
+            var contest = this.GetContestById(contestId);
+            if (contest != null)
+            {
+                if (contest.ParticipationStrategy == EntryType.Open)
+                {
+                    return true;
+                }
+                if (this.UserProfile == null)
+                {
+                    return false;
+                }
+                if (contest.AllowedParticipants.Contains(this.UserProfile))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return null;
+        }
+     
+       
     }
 }

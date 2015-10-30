@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Enums;
 
     public class ContestEntry
     {
@@ -35,6 +36,8 @@
         public int ContestId { get; set; }
         public virtual Contest Contest { get; set; }
 
+        public ContestEntryState State { get; set; }
+
         //IF ENTRY IS WINNER
         public bool IsWinner { get; private set; }
 
@@ -44,12 +47,6 @@
 
         //IF ENTRY IS WINNER => WINING PLACE
         public int? WinningPlace { get; private set; }
-
-        //IF ENTRY IS DELETED BY ADMIN
-        public bool IsDeleted { get; set; }
-
-        //IF ENTRY IS APPROVED BY ADMIN => NOT DISPLAYED IN THE LIST
-        public bool IsApproved { get; set; }
 
         //VOTES RECIVED
         public virtual ICollection<Vote> Votes

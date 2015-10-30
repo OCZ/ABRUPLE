@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Contest.cs" />
     <Compile Include="ContestEntry.cs" />
+    <Compile Include="Enums\ContestEntryState.cs" />
     <Compile Include="Enums\ContestState.cs" />
     <Compile Include="Enums\DeadlineStrategy.cs" />
     <Compile Include="Enums\EntryType.cs" />

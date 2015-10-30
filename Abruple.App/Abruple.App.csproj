@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseContestController.cs" />
+    <Compile Include="Controllers\BaseControllers\BaseUserController.cs" />
     <Compile Include="Controllers\ContestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -296,7 +297,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Models\BindingModels\" />
-    <Folder Include="Views\BaseContest\" />
+    <Folder Include="Models\ViewModels\User\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
