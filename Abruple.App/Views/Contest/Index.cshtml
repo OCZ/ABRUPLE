@@ -8,6 +8,45 @@
 
 <h2 class="page-header">Contests</h2>
 
+<ul id="contests-filter" class="nav nav-tabs">
+    <li role="presentation" id="contest-filter-tab-active" class="contest-fileter-tab active">
+        @Ajax.ActionLink("Active", "GetContests", new { filter = "active" }, new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "contests-table-body",
+            LoadingElementId = "ajax-loader"
+        }, new { @class = "btn-link" })
+    </li>
+    <li role="presentation" id="contest-filter-tab-past" class="contest-fileter-tab">
+        @Ajax.ActionLink("Past", "GetContests", new { filter = "past" }, new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "contests-table-body",
+            LoadingElementId = "ajax-loader"
+        }, new { @class = "btn-link" })
+    </li>
+    <li role="presentation" id="contest-filter-tab-own" class="contest-fileter-tab">
+        @Ajax.ActionLink("Own", "GetContests", new { filter = "own" }, new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "contests-table-body",
+            LoadingElementId = "ajax-loader"
+        }, new { @class = "btn-link" })
+    </li>
+    <li role="presentation" id="contest-filter-tab-all" class="contest-fileter-tab">
+        @Ajax.ActionLink("All", "GetContests", new { filter = "all" }, new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "contests-table-body",
+            LoadingElementId = "ajax-loader"
+        }, new { @class = "btn-link" })
+    </li>
+</ul>
+
 @using (Ajax.BeginForm("GetContests", "Contest", null,
     new AjaxOptions()
     {
@@ -17,26 +56,8 @@
         LoadingElementId = "ajax-loader"
     }, new { id = "get-contests-form" }))
 {
-    // TODO: FILTER
     // TODO: ELEMENT TO SKIP
-    
-    @*<input type="submit" value="TEST CONTESTS"/>*@
 }
-
-<ul id="contests-filter" class="nav nav-tabs">
-    <li role="presentation" class="active">
-        <a href="#" title="View Active Contests">Active</a>
-    </li>
-    <li role="presentation">
-        <a href="#" title="View Past Contests">Past</a>
-    </li>
-    <li role="presentation">
-        <a href="#" title="View All Your Contests">My Contests</a>
-    </li>
-    <li role="presentation">
-        <a href="#" title="View All Contests">All</a>
-    </li>
-</ul>
 
 <div class="container table">
     <table class="table table-responsive table-striped">
@@ -50,7 +71,7 @@
             </tr>
         </thead>
         <tbody id="contests-table-body">
-            @Html.Partial("_contestsListPartial", Model)
+            @Html.Partial("_contestsListPartial", Model) 
         </tbody>
     </table>
     <div id="ajax-loader" class="text-center">
@@ -60,13 +81,24 @@
 
 @section scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            // FORM
             var formToSubmit = $("#get-contests-form");
+            // FILTER TABS
+            var filterTab = $(".contest-fileter-tab");
             
+            // FLITER TAB CHANGE TO ACTIVE ON CLICK
+            filterTab.click(function () {
+                filterTab.removeClass("active");
+                $(this).toggleClass("active");
+            });
+
+            // FORMT SUBMIT ON PAGE LOAD
             if (formToSubmit) {
                 formToSubmit.submit();
             }
 
+            // FORM SUBMIT ON SCROLL
             $(window).scroll(function () {
                 if ($(window).scrollTop() === $(document).height() - $(window).height()) {
                     if (formToSubmit) {
