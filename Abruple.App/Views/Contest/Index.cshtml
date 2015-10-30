@@ -47,7 +47,7 @@
     </li>
 </ul>
 
-@using (Ajax.BeginForm("GetContests", "Contest", null,
+@using (Ajax.BeginForm("GetContests", "Contest", 
     new AjaxOptions()
     {
         HttpMethod = "GET",
@@ -56,6 +56,8 @@
         LoadingElementId = "ajax-loader"
     }, new { id = "get-contests-form" }))
 {
+    @Html.Hidden("filter", "active", new { @id="contest-filter-value" })
+    
     // TODO: ELEMENT TO SKIP
 }
 
@@ -84,11 +86,17 @@
         $(document).ready(function () {
             // FORM
             var formToSubmit = $("#get-contests-form");
+
             // FILTER TABS
             var filterTab = $(".contest-fileter-tab");
             
-            // FLITER TAB CHANGE TO ACTIVE ON CLICK
+            // FLITER TAB CHANGE TO ACTIVE ON CLICK AND SET FILTER VALUE
             filterTab.click(function () {
+                var filterValue = $(this).text().toLocaleLowerCase();
+                $("#contest-filter-value").val(filterValue);
+
+                console.log($("#contest-filter-value").val());
+
                 filterTab.removeClass("active");
                 $(this).toggleClass("active");
             });
