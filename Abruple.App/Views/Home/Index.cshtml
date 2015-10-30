@@ -1,15 +1,39 @@
-﻿@using Abruple.Models
-@model Abruple.Models.Contest
-@{
-    ViewBag.Title = "Home Page";
+﻿@{
+    ViewBag.Title = "Home";
+    ViewBag.AppName = "ABRUPLE";
 }
 
+<h2>@ViewBag.AppName</h2>
 
-<br/>
+<hr class="featurette-divider">
 
-@Html.ActionLink("Create Contest", "Index", "Contest", routeValues: null, htmlAttributes: null)
+<div class="row featurette">
+    <div class="col-md-7">
+        <h3 class="featurette-heading">What's ABRUPLE? <span class="text-muted">It'll blow your mind.</span></h3>
+        <p class="lead">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id condimentum odio.
+            Suspendisse potenti. Nulla odio augue, congue eu lectus vitae, consectetur iaculis leo.
+            Fusce augue eros, laoreet sit amet gravida a, congue egestas lacus.
+            Morbi felis neque, sagittis vitae nisi ut, venenatis consectetur massa.
+            Vivamus tincidunt leo eu lacus blandit, eget tincidunt metus venenatis.
+            Nunc diam sem, aliquam id posuere nec, facilisis in diam.
+            Maecenas elit felis, posuere ac risus eu, sodales consectetur enim.
+        </p>
+    </div>
+</div>
 
-<br/>
+<hr class="featurette-divider">
 
-@Html.ActionLink("GET Contest Collection", "GetContest", "Contest", routeValues: new { entriesToSkip  = 0}, htmlAttributes: null)
+<div class="row featurette">
+    <div class="col-md-7 col-md-push-5">
+        <h3 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h3>
+        <p class="lead">
+            Pellentesque iaculis aliquet justo, sit amet luctus nibh.
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+        </p>
+    </div>
+</div>
 
+@*<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="http://www.youtube.com/embed/4EGDxkWoUOY"></iframe>
+</div>*@

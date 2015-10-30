@@ -1,0 +1,79 @@
+﻿@using Abruple.App.Models.ViewModels.Contest
+
+@model IEnumerable<ContestConciseViewModel>
+
+@{
+    ViewBag.Title = "Contests";
+}
+
+<h2 class="page-header">Contests</h2>
+
+@using (Ajax.BeginForm("GetContests", "Contest", null,
+    new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "contests-table-body",
+        InsertionMode = InsertionMode.InsertAfter,
+        LoadingElementId = "ajax-loader"
+    }, new { id = "get-contests-form" }))
+{
+    // TODO: FILTER
+    // TODO: ELEMENT TO SKIP
+    
+    @*<input type="submit" value="TEST CONTESTS"/>*@
+}
+
+<ul id="contests-filter" class="nav nav-tabs">
+    <li role="presentation" class="active">
+        <a href="#" title="View Active Contests">Active</a>
+    </li>
+    <li role="presentation">
+        <a href="#" title="View Past Contests">Past</a>
+    </li>
+    <li role="presentation">
+        <a href="#" title="View All Your Contests">My Contests</a>
+    </li>
+    <li role="presentation">
+        <a href="#" title="View All Contests">All</a>
+    </li>
+</ul>
+
+<div class="container table">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <td class="col col-xs-push-9">Title</td>
+                <td class="col col-sg-2">Author</td>
+                <td class="col col-sg-2">Date</td>
+                <td class="col col-lg-2">Entries</td>
+                <td class="col col-lg-1">Details</td>
+            </tr>
+        </thead>
+        <tbody id="contests-table-body">
+            @Html.Partial("_contestsListPartial", Model)
+        </tbody>
+    </table>
+    <div id="ajax-loader" class="text-center">
+        <img src="~/Content/images/ajax-loader.gif" alt="Loading" width="64" height="64" />
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            var formToSubmit = $("#get-contests-form");
+            
+            if (formToSubmit) {
+                formToSubmit.submit();
+            }
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+                    if (formToSubmit) {
+                        formToSubmit.submit();
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,22 +1,85 @@
 ﻿@using Microsoft.AspNet.Identity
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="btn-group">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#create-contest-form-dialog" data-backdrop="false" title="Create new contest">
+                    New contest
+                </button>
+
+                <button class="btn btn-default dropdown-toggle" type="button" id="identity-control-panel" title="Your Control Panel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span>@User.Identity.GetUserName()&nbsp;</span>
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="caret"></span>
+                </button>
+
+                <button id="notifications-button" type="button" class="btn btn-default">
+                    <span id="notifications-counter" class="badge-custom-inactive">0</span> <!--CHANGE TO badge-custom-active ON NEW NOTIFY-->
+                    <span class="glyphicon glyphicon-bell"></span>
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="profile-drop-down-menu">
+                    @if (@User.IsInRole("Admin"))
+                    {
+                        <li>
+                            @Html.ActionLink("Admin Panel", "Index", "Home", new { Area = "Admin" }, new { title = "Admin" })
+                        </li>
+                    }
+                    <li>
+                        @Html.ActionLink("Profile", "Index", "Manage", null, new { title = "Profile" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Help", "Help", "Home", null, new { title = "Help" })
+                    </li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()" title="Log out">Log out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    }
+
+    using (Html.BeginForm("NewContest", "Contest", FormMethod.Post, new { @class = "navbar-right", id = "create-contest-form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="create-contest-form-dialog" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div id="create-contest-form-content" class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-target="#create-contest-form-dialog">&times;</button>
+                        <h4 class="modal-title">Stinger</h4>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        <!--
+                        TODO:
+                            CONTEST BINDING INPUTS HERE
+                            LIKE: TEXTAREA, INPUTS, AND ETC...
+                        -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" data-target="#create-contest-form-dialog">Cancel</button>
+
+                        <input type="submit" value="Submit" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success", id = "register-link" })
+        </li>
+        <li>
+            @Html.ActionLink("Log in", "Login", "Account", null, new { @class = "btn btn-info", id = "login-link" })
+        </li>
     </ul>
 }
