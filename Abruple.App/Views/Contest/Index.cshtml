@@ -27,15 +27,18 @@
             LoadingElementId = "ajax-loader"
         }, new { @class = "btn-link" })
     </li>
-    <li role="presentation" id="contest-filter-tab-own" class="contest-fileter-tab">
-        @Ajax.ActionLink("Own", "GetContests", new { filter = "own" }, new AjaxOptions()
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <li role="presentation" id="contest-filter-tab-own" class="contest-fileter-tab">
+            @Ajax.ActionLink("Own", "GetContests", new { filter = "own" }, new AjaxOptions()
         {
             HttpMethod = "GET",
             InsertionMode = InsertionMode.Replace,
             UpdateTargetId = "contests-table-body",
             LoadingElementId = "ajax-loader"
         }, new { @class = "btn-link" })
-    </li>
+        </li>
+    }
     <li role="presentation" id="contest-filter-tab-all" class="contest-fileter-tab">
         @Ajax.ActionLink("All", "GetContests", new { filter = "all" }, new AjaxOptions()
         {
