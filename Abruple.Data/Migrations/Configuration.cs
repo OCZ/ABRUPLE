@@ -35,7 +35,7 @@ namespace Abruple.Data.Migrations
             {
                 var userStore = new UserStore<User>(context);
                 var userManager = new UserManager<User>(userStore);
-                var userToInsert = new User { UserName = "admin", Email = "admin@admin.com" };
+                var userToInsert = new User { UserName = "admin", Email = "admin@admin.com", Registration = DateTime.Now };
                 var userCreate = userManager.Create(userToInsert, "123123");
 
                 if (!userCreate.Succeeded)

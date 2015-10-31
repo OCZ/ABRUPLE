@@ -62,6 +62,7 @@
     <Compile Include="Enums\ContestState.cs" />
     <Compile Include="Enums\DeadlineStrategy.cs" />
     <Compile Include="Enums\EntryType.cs" />
+    <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\RewardStrategy.cs" />
     <Compile Include="Notification.cs" />

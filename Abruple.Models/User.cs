@@ -1,9 +1,11 @@
 ﻿namespace Abruple.Models
 {
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using Enums;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -14,10 +16,11 @@
         private ICollection<Contest> _allowedVoting;
         private ICollection<Contest> _allowedParticipation;
         
-
         private ICollection<ContestEntry> _contestEntries;
         private ICollection<Vote> _votes;
         private ICollection<Notification> _notifications;
+
+        private const string DefaultProfilePic = "~/Content/images/user.jpg";
 
         public User()
         {
@@ -28,6 +31,7 @@
             this._allowedVoting = new HashSet<Contest>();
             this._allowedParticipation = new HashSet<Contest>();
             this._notifications = new HashSet<Notification>();
+            this.ProfilePic = DefaultProfilePic;
         }
 
         public string FirstName { get; set; }
@@ -39,9 +43,14 @@
             get { return this.FirstName + " " + this.LastName; }
         }
 
+        public Gender Gender { get; set; }
+
         public string AboutMe { get; set; }
 
         public string ProfilePic { get; set; }
+
+        [Required]
+        public DateTime Registration { get; set; }
 
         //if user is blockes by the Admin (if is blocked forbiden login, display info msg that is blocked by Admin )
         public bool IsBlocked { get; set; }
