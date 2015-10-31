@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Web.Mvc;
-    using Abruple.Models.Enums;
+
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
@@ -30,18 +30,15 @@
         [HttpGet]
         public ActionResult GetContests(int entriesToSkip = 0, string filter = "active")
         {
-            // SIMULATE INTERNET CONNECTION
-            System.Threading.Thread.Sleep(1000);
-
             if (!Request.IsAjaxRequest())
             {
                 return HttpNotFound();
             }
 
             const int entriesToLoad = 10;
-            var totalEntries = this.Data.Contests.All().Count();
-
             entriesToSkip *= entriesToLoad;
+
+            var totalEntries = this.GetContestsCollection(filter).Count();
 
             if (entriesToSkip < totalEntries)
             {

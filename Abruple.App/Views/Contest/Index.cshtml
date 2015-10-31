@@ -56,12 +56,14 @@
         HttpMethod = "GET",
         UpdateTargetId = "contests-table-body",
         InsertionMode = InsertionMode.InsertAfter,
+        OnBegin = "toggleRequest('off')",
+        OnComplete = "toggleRequest('on')",
         LoadingElementId = "ajax-loader"
+        
     }, new { id = "get-contests-form" }))
 {
-    @Html.Hidden("filter", "active", new { @id="contest-filter-value" })
-    
-    // TODO: ELEMENT TO SKIP
+    @Html.Hidden("filter", "active", new { id="contest-filter-value" })
+    @Html.Hidden("entriesToSkip", 0, new { id = "contest-entries-to-skip" })   
 }
 
 <div class="container table">
@@ -86,15 +88,28 @@
 
 @section scripts {
     <script>
-        $(document).ready(function () {
+        var isLoadingData = false;
+        //var isDataOver = false; // TODO: NOT IMPLEMENTED!
+
+        var toggleRequest = function(mode) {
+            switch (mode) {
+                case "on": isLoadingData = false; break;
+                case "off": 
+                default: isLoadingData = false;
+            }
+
+            return isLoadingData;
+        };
+
+        $(document).ready(function() {
             // FORM
             var formToSubmit = $("#get-contests-form");
 
             // FILTER TABS
             var filterTab = $(".contest-fileter-tab");
-            
+
             // FLITER TAB CHANGE TO ACTIVE ON CLICK AND SET FILTER VALUE
-            filterTab.click(function () {
+            filterTab.click(function() {
                 var filterValue = $(this).text().toLocaleLowerCase();
                 $("#contest-filter-value").val(filterValue);
 
@@ -104,15 +119,30 @@
                 $(this).toggleClass("active");
             });
 
+
+            // ENTRIES TO SKIP ON FORM SUBMIT ON PAGE LOAD
+            var entriesToSkip = 0;
+
+            var skipEntries = function(skipEntries) {
+
+                $("#contest-entries-to-skip").val(skipEntries);
+
+                entriesToSkip++;
+            };
+
             // FORMT SUBMIT ON PAGE LOAD
-            if (formToSubmit) {
+            if (formToSubmit && !isLoadingData) {
+                skipEntries(entriesToSkip);
+
                 formToSubmit.submit();
             }
 
             // FORM SUBMIT ON SCROLL
-            $(window).scroll(function () {
+            $(window).scroll(function() {
                 if ($(window).scrollTop() === $(document).height() - $(window).height()) {
-                    if (formToSubmit) {
+                    if (formToSubmit && !isLoadingData) {
+                        skipEntries(entriesToSkip);
+
                         formToSubmit.submit();
                     }
                 }
