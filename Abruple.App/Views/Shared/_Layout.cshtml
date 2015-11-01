@@ -36,17 +36,17 @@
                         @if (@User.Identity.IsAuthenticated)
                         {
                             // TODO: THINK ABOUT FORGERY TOKEN ? Y/N
-                            using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "navbar-form navbar-left input-group", role = "search" }))
+                            using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "navbar-form", role = "search" }))
                             {
                                 <div class="input-group">
-                                    <input id="main-input-search" type="search" placeholder="Search..." class="form-control" aria-label="...">
+                                    <input id="main-input-search" type="search" placeholder="Search..." class="container form-control" aria-label="search">
                                     <div class="input-group-btn">
                                         <button type="button" title="Search" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="glyphicon glyphicon-search"></span>
                                             <span class="caret"></span>
                                         </button>
 
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown dropdown-menu">
                                             <li><a href="#" title="Search for user">User</a></li>
                                             <li><a href="#" title="Search for contest">Contest</a></li>
                                         </ul>
@@ -56,7 +56,10 @@
                         }
                     </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right navbar-collapse collapse">
+                    @Html.Partial("_NewContestPartialView")
+                    @Html.Partial("_LoginPartial")
+                </ul>
             </div>
         </div>
     </div>

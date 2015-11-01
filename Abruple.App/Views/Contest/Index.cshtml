@@ -113,16 +113,15 @@
                 var filterValue = $(this).text().toLocaleLowerCase();
                 $("#contest-filter-value").val(filterValue);
 
-                console.log($("#contest-filter-value").val());
-
                 filterTab.removeClass("active");
                 $(this).toggleClass("active");
             });
 
-
-            // ENTRIES TO SKIP ON FORM SUBMIT ON PAGE LOAD
+            // ENTRIES TO SKIP INIT
             var entriesToSkip = 0;
 
+            // GET ENTRIES TO SKIP AND PASS IT TO FORM HIDDEN INPUT
+            // THEN INCREMENT ENTRIES TO SKIP
             var skipEntries = function(skipEntries) {
 
                 $("#contest-entries-to-skip").val(skipEntries);

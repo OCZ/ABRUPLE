@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using Enums;
 
     public class Contest
@@ -31,17 +32,19 @@
 
         // TITLE
         [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 1)]
         public string Title { get; set; }
 
         // DESCRIPTION
         [Required]
+        [MaxLength(250, ErrorMessage = "The {0} must not be longer than {1} characters.")]
         public string Description { get; set; }
 
         // STATE
         [Required]
         public ContestState State { get; set; }
 
-        //DATE CREATED
+        // DATE CREATED
         [Required]
         public DateTime CreatedOn { get; set; }
 
@@ -57,8 +60,7 @@
             set { this._contestEntries = value; }
         }
 
-
-        //PARTICIPANTS -> unique users that are participated in the contest
+        // PARTICIPANTS -> unique users that are participated in the contest
         // NB : 1 user can participate with some entries in the contest
         public virtual ICollection<User> Participants
         {
@@ -66,52 +68,44 @@
             set { this._participants = value; }
         }
 
-
-
-        //VOTING STRATEGY -> type: OPEN/CLOSE
+        // VOTING STRATEGY -> type: OPEN/CLOSE
         public EntryType VotingStrategy { get; set; }
 
-        //VOTINGSTRATEGY -> if is CLOSE => USERS WHICH ARE ALLOWED TO VOTE
+        // VOTINGSTRATEGY -> if is CLOSE => USERS WHICH ARE ALLOWED TO VOTE
         public virtual ICollection<User> Committee
         {
             get { return this._committee; }
             set { this._committee = value; }
         }
         
-
-
-        //PARTICIPATION STRATEGY -> type: OPEN/CLOSE
+        // PARTICIPATION STRATEGY -> type: OPEN/CLOSE
         public EntryType ParticipationStrategy { get; set; }
 
-        //PARTICIPATION STRATEGY -> if is CLOSE => USERS  WHICH ARE ALLOWED TO UPLOADED ENTRIES
+        // PARTICIPATION STRATEGY -> if is CLOSE => USERS  WHICH ARE ALLOWED TO UPLOADED ENTRIES
         public virtual ICollection<User> AllowedParticipants
         {
             get { return this._allowedParticipants; }
             set { this._allowedParticipants = value; }
         }
-
         
-        
-        //REWARD STRATEGY - type of winning => single winner/multiple winners
+        // REWARD STRATEGY - type of winning => single winner/multiple winners
         public RewardStrategy RewardStrategy { get; set; }
 
-        //REWARD STRATEGY - if reward strategy == multiple => collection of prizes
+        // REWARD STRATEGY - if reward strategy == multiple => collection of prizes
         public virtual ICollection<Prize> Prizes
         {
             get { return this._prizes; }
             set { this._prizes = value; }
         }
 
-        //REWARD STRATEGY - winners
+        // REWARD STRATEGY - winners
         public virtual ICollection<ContestEntry> Winners
         {
             get { return this._winners; }
             set { this._winners = value; }
         }
 
-
-
-        //DEADLYNE STRATEGY -> type of ending the contest => byTyme/byParticipants(unique users)
+        // DEADLYNE STRATEGY -> type of ending the contest => byTyme/byParticipants(unique users)
         public DeadlineStrategy DeadlineStrategy { get; set; }
         
         //DEADLYNE STRATEGY 
@@ -119,11 +113,5 @@
 
         // PARTICIPATION COUNT
         public int? ParticipantCount { get; set; }
-
-
-
-       
-       
-
     }
 }

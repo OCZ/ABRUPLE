@@ -53,10 +53,12 @@
             return null;
         }
 
+        // NEW CONTEST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult NewContest()
         {
-            return this.Content("New contest created!");
+            return this.Content(this.Response.Status);
         }
 
         /*

@@ -103,3 +103,12 @@ textarea {
 #ajax-loader {
     display: none;
 }
+
+.navbar-form {
+    border: none;
+    box-shadow: none;
+}
+
+.form-control {
+    max-width: 100%;
+}

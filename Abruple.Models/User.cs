@@ -61,7 +61,7 @@
             set { this._contestsCreated = value; }
         }
 
-        
+        // CONTEST ENTRIES
         public virtual ICollection<ContestEntry> ContestEntries
         {
             get { return this._contestEntries; }
