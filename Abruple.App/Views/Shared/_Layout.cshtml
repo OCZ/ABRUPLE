@@ -73,11 +73,12 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
-    <script>
-        $(document).ready(function () {
-            $('#create-contest-form-content').draggable();
-        });
-    </script>
+<script>
+    $(document).ready(function() {
+        $('#create-contest-form-content').draggable();
+    });
+</script>
 </body>
 </html>
