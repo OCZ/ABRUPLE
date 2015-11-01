@@ -89,7 +89,6 @@
                 switch(strategyName) {
                     case "contest-reward-strategy":
                         if (strategyValue == 0) {
-                            console.log(0);
                             $("#contest-top").remove();
                         } else {
                             $("<input type='number' min='2' id='contest-top' class='form-control'>").appendTo($("#contest-participation-field"));

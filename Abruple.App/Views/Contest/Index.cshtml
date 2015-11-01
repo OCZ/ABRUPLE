@@ -101,7 +101,9 @@
             return isLoadingData;
         };
 
-        $(document).ready(function() {
+        $(document).ready(function () {
+            // ENTRIES TO SKIP INIT
+            var entriesToSkip = 0;
             // FORM
             var formToSubmit = $("#get-contests-form");
 
@@ -111,14 +113,12 @@
             // FLITER TAB CHANGE TO ACTIVE ON CLICK AND SET FILTER VALUE
             filterTab.click(function() {
                 var filterValue = $(this).text().toLocaleLowerCase();
+                entriesToSkip = 0;
                 $("#contest-filter-value").val(filterValue);
 
                 filterTab.removeClass("active");
                 $(this).toggleClass("active");
             });
-
-            // ENTRIES TO SKIP INIT
-            var entriesToSkip = 0;
 
             // GET ENTRIES TO SKIP AND PASS IT TO FORM HIDDEN INPUT
             // THEN INCREMENT ENTRIES TO SKIP
@@ -146,6 +146,7 @@
                     }
                 }
             });
+            console.log(entriesToSkip);
         });
     </script>
 }

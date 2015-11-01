@@ -1,13 +1,15 @@
 ﻿namespace Abruple.App.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Mvc;
-
+    using Abruple.Models;
+    using Abruple.Models.Enums;
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
     using Data.Contracts;
-
+    using Models.BindingModels.Contest;
     using Models.ViewModels.Contest;
 
     [Authorize]
@@ -54,11 +56,38 @@
         }
 
         // NEW CONTEST
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewContest()
+        [Authorize]
+        [HttpPost]
+        public ActionResult NewContest(NewContestBindingModel model)
         {
-            return this.Content(this.Response.Status);
+            if (model == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.HttpNotFound();
+            }
+
+            var newlyAddedContest = new Contest()
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Creator = this.UserProfile,
+                ParticipationStrategy  = model.ParticipationStrategy,
+                VotingStrategy = model.VotingStrategy,
+                DeadlineStrategy = model.DeadlineStrategy,
+                RewardStrategy = model.RewardStrategy,
+                CreatedOn = DateTime.UtcNow,
+                State = ContestState.Active
+            };
+
+            this.Data.Contests.Add(newlyAddedContest);
+            this.Data.SaveChanges();
+
+            return RedirectToAction("Index", "Contest");
         }
 
         /*
