@@ -93,15 +93,18 @@
 
         var toggleRequest = function(mode) {
             switch (mode) {
-                case "on": isLoadingData = false; break;
-                case "off": 
-                default: isLoadingData = false;
+            case "on":
+                isLoadingData = false;
+                break;
+            case "off":
+            default:
+                isLoadingData = false;
             }
 
             return isLoadingData;
         };
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             // ENTRIES TO SKIP INIT
             var entriesToSkip = 0;
             // FORM
@@ -149,4 +152,20 @@
             console.log(entriesToSkip);
         });
     </script>
+
+    @*Hub implementation*@
+    <script>
+        $(document).ready(function() {
+
+            var contestsHub = $.connection.contests;
+
+            contestsHub.client.updateContests = function() {
+                //Reload partial view here.
+                $("#contests-table-body").load("/Contest/GetContests");
+
+            };
+            $.connection.hub.start();
+        });
+    </script>
+
 }

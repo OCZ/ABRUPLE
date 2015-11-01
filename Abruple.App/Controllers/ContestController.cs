@@ -1,4 +1,6 @@
-﻿namespace Abruple.App.Controllers
+﻿using Abruple.App.Hubs;
+
+namespace Abruple.App.Controllers
 {
     using System;
     using System.Linq;
@@ -86,6 +88,10 @@
 
             this.Data.Contests.Add(newlyAddedContest);
             this.Data.SaveChanges();
+
+            //Hub implementation
+            var hub = new ContestsHub();
+            hub.UpdateContest();
 
             return RedirectToAction("Index", "Contest");
         }
