@@ -212,6 +212,7 @@
     <Compile Include="Controllers\ContestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseManageController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -301,6 +302,8 @@
     <Content Include="Views\Shared\DisplayTemplates\ContestConciseViewModel.cshtml" />
     <Content Include="Views\Shared\_NewContestPartialView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\NewContestBindingModel.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Shared\_userPersonalDataPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
