@@ -75,10 +75,28 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
-<script>
-    $(document).ready(function() {
-        $('#create-contest-form-content').draggable();
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $('#create-contest-form-content').draggable();
+
+            var contestStrategy = $(".contest-strategy");
+
+            contestStrategy.change(function () {
+                var strategyName = (this).id;
+                var strategyValue = $(this).val();
+
+
+                switch(strategyName) {
+                    case "contest-reward-strategy":
+                        if (strategyValue == 0) {
+                            console.log(0);
+                            $("#contest-top").remove();
+                        } else {
+                            $("<input type='number' min='2' id='contest-top' class='form-control'>").appendTo($("#contest-participation-field"));
+                        }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
