@@ -1,0 +1,24 @@
+﻿@model Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel
+<div class="media">
+    <div class="media-left">
+        <a href="#">
+            <img class="media-object" src="@Model.PhotoUrl" alt="Contest Entry Img">
+        </a>
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading">@Model.Title</h4>
+        <p>@Model.Contest</p>
+        <p>@Model.Author</p>
+        <p>@Model.Upploaded</p>
+        <p>@Model.Votes</p>
+    </div>
+    <div>
+        @Html.ActionLink("Vote", null, null, new { id = Model.Id}, new {@class = "btn btn-default"})
+    </div>
+    <div>
+        @Html.ActionLink("Approve", null, null, new { Model.Id }, new { @class = "btn btn-default" })
+    </div>
+    <div>
+        @Html.ActionLink("Delete", null, null, new { Model.Id }, new { @class = "btn btn-default" })
+    </div>
+</div>

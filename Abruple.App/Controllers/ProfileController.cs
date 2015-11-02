@@ -41,9 +41,9 @@
             {
                 return this.HttpNotFound();
             }
-            var result = Mapper.Map<User, UserFullViewModel>(user);
+   //         var result = Mapper.Map<User, UserFullViewModel>(user);
 
-            result.PersonalData = Mapper.Map<User, UserPersonalDataViewModel>(user);
+           var result = Mapper.Map<User, UserPersonalDataViewModel>(user);
              
             return View(result);
         }

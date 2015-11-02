@@ -1,7 +1,13 @@
-﻿
+﻿@using Abruple.App.Models.ViewModels.ContestEntry
+@model IEnumerable<Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel>
 @{
-    ViewBag.Title = "Admin";
+    ViewBag.Title = "Pending Contest Entries";
 }
 
-<h2>Admin</h2>
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    @Html.DisplayFor(x => x)
+
+</div>
 

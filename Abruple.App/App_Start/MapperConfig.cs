@@ -25,6 +25,11 @@ namespace Abruple.App.App_Start
                 .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
                 .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
 
+            Mapper.CreateMap<ContestEntry, ContestEntryShortViewModel>()
+               .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
+               .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
+               .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
+
             Mapper.CreateMap<Vote, VoteViewModel>()
                 .ForMember(model => model.Autor, config => config.MapFrom(vote => vote.Author.UserName));
 
@@ -44,13 +49,13 @@ namespace Abruple.App.App_Start
                             ce =>ce.ContestEntries.Count(
                                     cc => cc.IsWinner == true && cc.State != ContestEntryState.Deleted)));
                        
-            Mapper.CreateMap<User, UserFullViewModel>()
-                .ForMember(model => model.ContestEntries,
-                    config => config.MapFrom(u => u.ContestEntries.Where(ce => ce.State != ContestEntryState.Deleted).OrderByDescending(ce => ce.Upploaded)))
-                .ForMember(model => model.ContestsCreated,
-                    config => config.MapFrom(u => u.ContestsCreated.OrderByDescending(c => c.CreatedOn)))
-                .ForMember(model => model.ContestsParticipated,
-                    config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
+            //Mapper.CreateMap<User, UserFullViewModel>()
+            //    .ForMember(model => model.ContestEntries,
+            //        config => config.MapFrom(u => u.ContestEntries.Where(ce => ce.State != ContestEntryState.Deleted).OrderByDescending(ce => ce.Upploaded)))
+            //    .ForMember(model => model.ContestsCreated,
+            //        config => config.MapFrom(u => u.ContestsCreated.OrderByDescending(c => c.CreatedOn)))
+            //    .ForMember(model => model.ContestsParticipated,
+            //        config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
 
             Mapper.CreateMap<NewContestBindingModel, Contest>();
 

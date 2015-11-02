@@ -1,10 +1,10 @@
-﻿@model Abruple.App.Models.ViewModels.User.UserFullViewModel
+﻿@model Abruple.App.Models.ViewModels.User.UserPersonalDataViewModel
 
 @{
     ViewBag.Title = "Profile";
 }
 
-<h2>@Model.PersonalData.Username</h2>
+<h2>@Model.Username</h2>
 
-@Html.Partial("_userPersonalDataPartial", Model.PersonalData)
+@Html.Partial("_userPersonalDataPartial", Model)
 
