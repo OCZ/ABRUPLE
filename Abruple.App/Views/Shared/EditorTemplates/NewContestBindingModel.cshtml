@@ -1,32 +1,33 @@
-﻿@model Abruple.App.Models.BindingModels.Contest.NewContestBindingModel
+﻿@*@model Abruple.App.Models.BindingModels.Contest.NewContestBindingModel*@
+@model Abruple.App.Models.ModelWrapper
 
 @Html.ValidationSummary("", new { @class = "text-danger" })
 <div>
-    @Html.LabelFor(m => m.Title, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+    @Html.LabelFor(m => m.NewContestBindingModel.Title, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.NewContestBindingModel.Title, new { @class = "form-control" })
 </div>
 
 <div>
-    @Html.LabelFor(m => m.Description, new { @class = "control-label" })
-    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+    @Html.LabelFor(m => m.NewContestBindingModel.Description, new { @class = "control-label" })
+    @Html.TextAreaFor(m => m.NewContestBindingModel.Description, new { @class = "form-control" })
 </div>
 
 <div id="contest-participation-field">
-    @Html.LabelFor(m => m.ParticipationStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.ParticipationStrategy, new { id = "contest-participation-strategy", @class = "form-control contest-strategy" })
+    @Html.LabelFor(m => m.NewContestBindingModel.ParticipationStrategy, new { @class = "control-label" })
+    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.ParticipationStrategy, new { id = "contest-participation-strategy", @class = "form-control contest-strategy" })
 </div>
 
 <div id="contest-voting-field">
-    @Html.LabelFor(m => m.VotingStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.VotingStrategy, new { id = "contest-voting-strategy", @class = "form-control contest-strategy" })
+    @Html.LabelFor(m => m.NewContestBindingModel.VotingStrategy, new { @class = "control-label" })
+    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.VotingStrategy, new { id = "contest-voting-strategy", @class = "form-control contest-strategy" })
 </div>
 
 <div id="contest-deadline-field">
-    @Html.LabelFor(m => m.DeadlineStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.DeadlineStrategy, new { id = "contest-deadline-strategy", @class = "form-control contest-strategy" })
+    @Html.LabelFor(m => m.NewContestBindingModel.DeadlineStrategy, new { @class = "control-label" })
+    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.DeadlineStrategy, new { id = "contest-deadline-strategy", @class = "form-control contest-strategy" })
 </div>
 
 <div id="contest-reward-field">
-    @Html.LabelFor(m => m.RewardStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.RewardStrategy, new { id = "contest-reward-strategy", @class = "form-control contest-strategy" })
+    @Html.LabelFor(m => m.NewContestBindingModel.RewardStrategy, new { @class = "control-label" })
+    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.RewardStrategy, new { id = "contest-reward-strategy", @class = "form-control contest-strategy" })
 </div>

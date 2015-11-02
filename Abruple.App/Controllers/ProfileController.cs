@@ -1,4 +1,6 @@
-﻿namespace Abruple.App.Controllers
+﻿using Abruple.App.Models;
+
+namespace Abruple.App.Controllers
 {
     using System.Data.Entity;
     using System.Linq;
@@ -41,11 +43,12 @@
             {
                 return this.HttpNotFound();
             }
-   //         var result = Mapper.Map<User, UserFullViewModel>(user);
 
            var result = Mapper.Map<User, UserPersonalDataViewModel>(user);
-             
-            return View(result);
+
+            var output = new ModelWrapper {UserPersonalDataViewModel = result};
+
+            return View(output);
         }
 
 

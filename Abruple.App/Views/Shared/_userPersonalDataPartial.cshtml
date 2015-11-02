@@ -1,19 +1,20 @@
-﻿@model Abruple.App.Models.ViewModels.User.UserPersonalDataViewModel
+﻿@*@model Abruple.App.Models.ViewModels.User.UserPersonalDataViewModel*@
+@model Abruple.App.Models.ModelWrapper
 <div class="well">
     <div class="row">
         <div class="col-md-4">
-            <img class="media-object" src=@Url.Content(Model.ProfilePic) alt="@Model.Username profile photo" width="300">
+            <img class="media-object" src=@Url.Content(Model.UserPersonalDataViewModel.ProfilePic) alt="@Model.UserPersonalDataViewModel.Username profile photo" width="300">
         </div>
         <div class="col-md-4">
-            <p><b>Name: </b> @Model.FullName</p>
-            <p><b>Email: </b> @Model.Email</p>
-            <p><b>Gander: </b> @Model.Gender</p>
-            <p><b>Registration: </b>@string.Format("{0:D}", Model.Registration)</p>
-            <p><b>Contests Created:</b> @Model.ContestsCreatedCount</p>
-            <p><b>Contests Participated:</b> @Model.ContestsParticipatedCount</p>
-            <p><b>Photos Upploded:</b> @Model.PhotosUpplodedCount</p>
-            <p><b>Winnings:</b> @Model.WinningPhotosCount</p>
-            <p><b>AboutMe: </b> @Model.AboutMe</p>
+            <p><b>Name: </b> @Model.UserPersonalDataViewModel.FullName</p>
+            <p><b>Email: </b> @Model.UserPersonalDataViewModel.Email</p>
+            <p><b>Gander: </b> @Model.UserPersonalDataViewModel.Gender</p>
+            <p><b>Registration: </b>@string.Format("{0:D}", Model.UserPersonalDataViewModel.Registration)</p>
+            <p><b>Contests Created:</b> @Model.UserPersonalDataViewModel.ContestsCreatedCount</p>
+            <p><b>Contests Participated:</b> @Model.UserPersonalDataViewModel.ContestsParticipatedCount</p>
+            <p><b>Photos Upploded:</b> @Model.UserPersonalDataViewModel.PhotosUpplodedCount</p>
+            <p><b>Winnings:</b> @Model.UserPersonalDataViewModel.WinningPhotosCount</p>
+            <p><b>AboutMe: </b> @Model.UserPersonalDataViewModel.AboutMe</p>
         </div>
         <div class="col-md-4">
           <p> EDIT BUTTON GOES HERE</p>

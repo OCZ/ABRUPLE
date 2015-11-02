@@ -1,4 +1,5 @@
 ﻿using Abruple.App.Hubs;
+using Abruple.App.Models;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 
@@ -78,9 +79,9 @@ namespace Abruple.App.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
-        public ActionResult NewContest(NewContestBindingModel model)
+        public ActionResult NewContest(ModelWrapper model)
         {
-            if (model == null)
+            if (model.NewContestBindingModel == null)
             {
                 return this.HttpNotFound();
             }
@@ -90,7 +91,7 @@ namespace Abruple.App.Controllers
                 return this.HttpNotFound();
             }
 
-            var contest = Mapper.Map<NewContestBindingModel, Contest>(model);
+            var contest = Mapper.Map<NewContestBindingModel, Contest>(model.NewContestBindingModel);
             contest.CreatedOn = DateTime.Now;
             contest.CreatorId = User.Identity.GetUserId();
 
