@@ -1,0 +1,45 @@
+﻿@*@model Abruple.App.Models.ViewModels.Contest.ContestConciseViewModel*@
+
+<h2 class="page-header">Contest</h2>
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="panel-heading">
+            <span class="pull-right small glyphicon glyphicon-calendar">
+                <time class="text">Created on: 01.01.2001</time>
+                by
+                @Html.ActionLink(" Username", null, null, new { @class = "glyphicon glyphicon-user" }) <!--ON HOVER SHOW USER INFO-->
+            </span>
+            <h3 class="text text-success">
+                Contest Title!
+            </h3>
+        </div>
+        <div class="panel-body">
+            <h3>Content description:</h3>
+            <p class="text text-primary">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Maecenas vehicula sodales hendrerit. Quisque suscipit posuere finibus.
+                Ut gravida lectus est, sit amet ultrices enim vestibulum ut.
+            </p>
+        </div>
+        <div class="panel-footer">
+            
+            @Html.Partial("ManageContestPartialView")
+
+            @*<span class="btn btn-success btn-file">
+                <input type="file">
+            </span>*@
+
+            <span class="glyphicon glyphicon-time pull-right text text-info">
+                <span class="text text-info">Timeleft --;-- / Max players 0/100</span>
+                <span class="glyphicon glyphicon-lock text-danger"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <!--TODO: CONTEST ENTRY PARTIAL-->
+    <!--TODO: DISPLAY FOR CONTEST ENTRIES COLLECTION-->
+</div>

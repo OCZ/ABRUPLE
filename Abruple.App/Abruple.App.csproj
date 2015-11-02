@@ -315,6 +315,8 @@
     <Content Include="Views\Shared\EditorTemplates\NewContestBindingModel.cshtml" />
     <Content Include="Views\Profile\Details.cshtml" />
     <Content Include="Views\Shared\_userPersonalDataPartial.cshtml" />
+    <Content Include="Views\Contest\Details.cshtml" />
+    <Content Include="Views\Contest\ManageContestPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

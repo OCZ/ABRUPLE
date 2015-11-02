@@ -5,14 +5,16 @@ using Microsoft.AspNet.Identity;
 namespace Abruple.App.Controllers
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Web.Mvc;
+
     using Abruple.Models;
-    using Abruple.Models.Enums;
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
     using Data.Contracts;
+
     using Models.BindingModels.Contest;
     using Models.ViewModels.Contest;
 
@@ -57,6 +59,19 @@ namespace Abruple.App.Controllers
             }
 
             return null;
+        }
+
+        // GET CONTEST DETAILS
+        public ActionResult Details(int id)
+        {
+            var contest = this.Data.Contests.All()
+                .Where(c => c.Id == id)
+                .ProjectTo<ContestConciseViewModel>();
+
+            // TODO: THERE IS A PROBLEM WITH THE MAPING I THINK, MUST TO CHECK IT
+            // TODO: TO CREATE A DETAILS VIEW MODEL OR TO USE CONCISE VIEW MODEL?
+
+            return this.View("Details"/*, contest.First()*/);
         }
 
         // NEW CONTEST

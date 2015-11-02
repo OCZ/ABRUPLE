@@ -1,0 +1,26 @@
+﻿@if (this.User.IsInRole("Contest-Creator, Admin")) // REMOVE THE ROLE JUST TO CHECK THE VIEW
+{
+    <button class="btn btn-success">
+        <span class="glyphicon glyphicon-ok-circle"></span>
+        Finalize
+    </button>
+    <button class="btn btn-warning">
+        <span class="glyphicon glyphicon-wrench"></span>
+        Edit
+    </button>
+    <button class="btn btn-danger">
+        <span class="glyphicon glyphicon-remove-circle"></span>
+        Dismiss
+    </button>
+}
+else
+{
+    <button class="btn btn-success">
+        <!--IF CAN PARTICIPATE-->
+        <span class="glyphicon glyphicon-ok-circle"></span> <!--TODO: OPEN A FORM WITH FIELDS-->
+
+        <!--IF CANNOT PARTICIPATE-->
+        @*<span class="glyphicon glyphicon-remove-circle"></span>*@
+        Participate
+    </button>
+}

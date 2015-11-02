@@ -4,12 +4,12 @@
 
 <tr class="text-left">
     <td class="col col-xs-push-9">
-        @Html.ActionLink(Model.Title, "Index", "Contest", null, new { @class = "btn btn-sm", Title = "Contest details page" })
+        @Html.ActionLink(Model.Title, "Details", "Contest", new { id = @Model.Id }, new { @class = "btn btn-sm", Title = "Contest details page" })
     </td>
     <td class="col col-sg-2">@Model.Author</td>
     <td class="col col-sg-2">@string.Format("{0:D}", Model.Date)</td>
     <td class="col col-lg-2">@Model.EntriesCount</td>
     <td class="col col-lg-1">
-        @Html.ActionLink("Contest Details", "Index", "Contest", null, new { @class = "btn btn-sm", Title = "Contest details page" })
+        @Html.ActionLink("Contest Details", "Details", "Contest", new { id = @Model.Id }, new { @class = "btn btn-sm", Title = "Contest details page" })
     </td>
 </tr>
