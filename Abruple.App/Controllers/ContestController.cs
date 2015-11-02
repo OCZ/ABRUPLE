@@ -1,4 +1,6 @@
 ﻿using Abruple.App.Hubs;
+using AutoMapper;
+using Microsoft.AspNet.Identity;
 
 namespace Abruple.App.Controllers
 {
@@ -73,20 +75,11 @@ namespace Abruple.App.Controllers
                 return this.HttpNotFound();
             }
 
-            var newlyAddedContest = new Contest()
-            {
-                Title = model.Title,
-                Description = model.Description,
-                Creator = this.UserProfile,
-                ParticipationStrategy  = model.ParticipationStrategy,
-                VotingStrategy = model.VotingStrategy,
-                DeadlineStrategy = model.DeadlineStrategy,
-                RewardStrategy = model.RewardStrategy,
-                CreatedOn = DateTime.UtcNow,
-                State = ContestState.Active
-            };
+            var contest = Mapper.Map<NewContestBindingModel, Contest>(model);
+            contest.CreatedOn = DateTime.Now;
+            contest.CreatorId = User.Identity.GetUserId();
 
-            this.Data.Contests.Add(newlyAddedContest);
+            this.Data.Contests.Add(contest);
             this.Data.SaveChanges();
 
             //Hub implementation

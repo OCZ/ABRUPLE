@@ -1,4 +1,6 @@
-﻿namespace Abruple.App.App_Start
+﻿using Abruple.App.Models.BindingModels.Contest;
+
+namespace Abruple.App.App_Start
 {
     using System.Linq;
     using Abruple.Models;
@@ -48,11 +50,9 @@
                 .ForMember(model => model.ContestsCreated,
                     config => config.MapFrom(u => u.ContestsCreated.OrderByDescending(c => c.CreatedOn)))
                 .ForMember(model => model.ContestsParticipated,
-                    config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)))
-               
-                    ;
-            
+                    config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
 
+            Mapper.CreateMap<NewContestBindingModel, Contest>();
 
             //Mapping with inheritance
             //Mapper.CreateMap<ParentSource, ParentDestination>()
