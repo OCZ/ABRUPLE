@@ -6,7 +6,6 @@ using Microsoft.AspNet.Identity;
 namespace Abruple.App.Controllers
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -56,6 +55,7 @@ namespace Abruple.App.Controllers
                          .Take(entriesToLoad)
                          .ProjectTo<ContestConciseViewModel>();
 
+
                 return this.PartialView("_contestsListPartial", result);
             }
 
@@ -68,9 +68,6 @@ namespace Abruple.App.Controllers
             var contest = this.Data.Contests.All()
                 .Where(c => c.Id == id)
                 .ProjectTo<ContestConciseViewModel>();
-
-            // TODO: THERE IS A PROBLEM WITH THE MAPING I THINK, MUST TO CHECK IT
-            // TODO: TO CREATE A DETAILS VIEW MODEL OR TO USE CONCISE VIEW MODEL?
 
             return this.View("Details"/*, contest.First()*/);
         }
@@ -98,11 +95,27 @@ namespace Abruple.App.Controllers
             this.Data.Contests.Add(contest);
             this.Data.SaveChanges();
 
-            //Hub implementation
             var hub = new ContestsHub();
             hub.UpdateContest();
 
             return RedirectToAction("Index", "Contest");
+        }
+
+        // SEARCH CONTEST
+        [HttpGet]
+        public ActionResult Search(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                var contests = this.Data.Contests.All()
+                    .Where(c => c.Title.StartsWith(name))
+                    .OrderBy(c => c.Title)
+                    .ProjectTo<ContestConciseViewModel>();
+
+                return this.Json(contests, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
         }
 
         /*

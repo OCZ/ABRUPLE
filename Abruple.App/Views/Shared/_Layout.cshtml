@@ -39,16 +39,18 @@
                             using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "navbar-form", role = "search" }))
                             {
                                 <div class="input-group">
-                                    <input id="main-input-search" type="search" placeholder="Search..." class="container form-control" aria-label="search">
+                                    <input id="main-input-search" type="search" placeholder="Search..." class="form-control input-search" aria-label="search">
                                     <div class="input-group-btn">
+                                        <span id="active-search-type" class="form-control">User</span>
+
                                         <button type="button" title="Search" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="glyphicon glyphicon-search"></span>
                                             <span class="caret"></span>
                                         </button>
 
                                         <ul class="dropdown dropdown-menu">
-                                            <li><a href="#" title="Search for user">User</a></li>
-                                            <li><a href="#" title="Search for contest">Contest</a></li>
+                                            <li><a id="search-type-user" class="search-type" href="#" title="Search for user">User</a></li>
+                                            <li><a id="search-type-contest" class="search-type" href="#" title="Search for contest">Contest</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -118,14 +120,14 @@
                             $("#contest-participation").remove();
                         } else {
                             $("<input type='text' min='2' id='contest-participation' class='form-control'>").appendTo($("#contest-participation-field"));
-//                            $("<span class='input-group-btn'><button class='btn btn-default' type='button'>" +
-//                                "Go!</button></span>").appendTo($("#contest-participation-field"));
+                            //                            $("<span class='input-group-btn'><button class='btn btn-default' type='button'>" +
+                            //                                "Go!</button></span>").appendTo($("#contest-participation-field"));
                             $("<ul id='users'></ul>").appendTo($("#contest-participation-field"));
                         }
                         break;
                     default:
                 }
-                
+
                 $("#contest-participation").keyup(function () {
                     //TODO: Simplify and optimize.
                     $("#users").html("");
@@ -135,11 +137,65 @@
                         " <button type='button' class='close' id='close" + $("#contest-participation").val() + "'>" +
                         "&times;</button></li>").appendTo($("#users"));
 
-                    $("#close" + $("#contest-participation").val()).click(function() {
+                    $("#close" + $("#contest-participation").val()).click(function () {
                         $("#" + $("#contest-participation").val()).remove();
                     });
                 });
             });
+        });
+    </script>
+
+    <!--SEARCH AUTOCOMPLETE-->
+    <script>
+        var inputSearch = $(".input-search");
+        var searchType = $(".search-type");
+
+        var autocompleteInput = function (inputElement) {
+            var inputValue = inputElement.val();
+            var searchType = $("#active-search-type").text();
+            var queryString = searchType + "/Search";
+
+            $.getJSON(queryString, { name: inputValue }, function (response) {
+                if (response.length) {
+
+                    console.clear();
+                    response.forEach(function (result) {
+                        var contestId = result["Id"];
+                        var contestTitle = result["Title"];
+
+                        console.log(contestId);
+                        console.log(contestTitle);
+                    });
+                } else {
+                    console.clear();
+                }
+            });
+        }
+
+        // LISTENERS
+
+        // SERCH INPUT ON KEY PRESS
+        inputSearch.keyup(function () {
+            autocompleteInput(inputSearch);
+        });
+        // SERCH INPUT ON FOCUS
+        inputSearch.focus(function () {
+            autocompleteInput(inputSearch);
+        });
+
+
+        // SEARCH TYPE ON CLICK
+        searchType.click(function () {
+            var searchTypeValue = this.id;
+
+            switch (searchTypeValue) {
+                case "search-type-contest":
+                    $("#active-search-type").text("Contest");
+                    break;
+                case "search-type-user":
+                default:
+                    $("#active-search-type").text("User");
+            }
         });
     </script>
 </body>

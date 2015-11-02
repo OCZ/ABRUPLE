@@ -4,6 +4,9 @@ using Abruple.App.Models.ViewModels.User;
 
 namespace Abruple.App.Models
 {
+    using System.Collections.Generic;
+    using ViewModels.Contest;
+
     public class ModelWrapper
     {
         public UserPersonalDataViewModel UserPersonalDataViewModel { get; set; }
@@ -11,5 +14,7 @@ namespace Abruple.App.Models
         public NewContestBindingModel NewContestBindingModel { get; set; }
 
         public ContestEntryConciseViewModel ContestEntryConciseViewModel { get; set; }
+
+        public IEnumerable<ContestConciseViewModel> ContestConciseViewModel { get; set; }
     }
 }
