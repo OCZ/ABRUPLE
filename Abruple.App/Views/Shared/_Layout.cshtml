@@ -87,38 +87,58 @@
                 var strategyName = (this).id;
                 var strategyValue = $(this).val();
 
+                //The code below is in construction don't expect it to work 100% of the time :)
                 switch (strategyName) {
                     case "contest-reward-strategy":
-                        if (strategyValue === 0) {
+                        if (strategyValue == 0) {
                             $("#contest-reward").remove();
                         } else {
                             $("<input type='number' min='2' id='contest-reward' class='form-control'>").appendTo($("#contest-reward-field"));
                         }
                         break;
                     case "contest-deadline-strategy":
-                        if (strategyValue === 0) {
-                            $("#contest-deadline").remove();
+                        //TODO: Date picker should show by default and not only when selected.
+                        if (strategyValue == 0) {
+                            $("#contest-deadline-number").remove();
+                            $("<input type='date' min='2' id='contest-deadline-date' class='form-control'>").appendTo($("#contest-deadline-field"));
                         } else {
-                            $("<input type='number' min='2' id='contest-deadline' class='form-control'>").appendTo($("#contest-deadline-field"));
+                            $("#contest-deadline-date").remove();
+                            $("<input type='number' min='2' id='contest-deadline-number' class='form-control'>").appendTo($("#contest-deadline-field"));
                         }
                         break;
                     case "contest-voting-strategy":
-                        if (strategyValue === 0) {
+                        if (strategyValue == 0) {
                             $("#contest-voting").remove();
                         } else {
-                            $("<input type='number' min='2' id='contest-voting' class='form-control'>").appendTo($("#contest-voting-field"));
+                            $("<input type='text' min='2' id='contest-voting' class='form-control'>").appendTo($("#contest-voting-field"));
                         }
                         break;
                     case "contest-participation-strategy":
-                        if (strategyValue === 0) {
+                        if (strategyValue == 0) {
                             $("#contest-participation").remove();
                         } else {
-                            $("<input type='number' min='2' id='contest-participation' class='form-control'>").appendTo($("#contest-participation-field"));
+                            $("<input type='text' min='2' id='contest-participation' class='form-control'>").appendTo($("#contest-participation-field"));
+//                            $("<span class='input-group-btn'><button class='btn btn-default' type='button'>" +
+//                                "Go!</button></span>").appendTo($("#contest-participation-field"));
+                            $("<ul id='users'></ul>").appendTo($("#contest-participation-field"));
                         }
                         break;
                     default:
-
                 }
+                
+                $("#contest-participation").keyup(function () {
+                    //TODO: Simplify and optimize.
+                    $("#users").html("");
+
+                    $("<li id='" + $("#contest-participation").val() + "'>"
+                        + $("#contest-participation").val() +
+                        " <button type='button' class='close' id='close" + $("#contest-participation").val() + "'>" +
+                        "&times;</button></li>").appendTo($("#users"));
+
+                    $("#close" + $("#contest-participation").val()).click(function() {
+                        $("#" + $("#contest-participation").val()).remove();
+                    });
+                });
             });
         });
     </script>

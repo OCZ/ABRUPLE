@@ -105,10 +105,10 @@
             set { this._winners = value; }
         }
 
-        // DEADLYNE STRATEGY -> type of ending the contest => byTyme/byParticipants(unique users)
+        // DEADLINE STRATEGY -> type of ending the contest => byTyme/byParticipants(unique users)
         public DeadlineStrategy DeadlineStrategy { get; set; }
         
-        //DEADLYNE STRATEGY 
+        //DEADLINE STRATEGY 
         public TimeSpan? TimeSpan { get; set; }
 
         // PARTICIPATION COUNT
