@@ -12,6 +12,7 @@
     using Models;
     using PagedList;
 
+    [Authorize(Roles = "Admin")]
     public class ManageController : BaseController
     {
 
@@ -27,13 +28,7 @@
         }
         #endregion
 
-        //// GET: Admin/Manage
-        //public ActionResult Contest()
-        //{
-        //    return View();
-        //}
-
-
+        [HttpGet]
         public ActionResult ContestEntries(int? page, int id)
         {
             this.ViewBag.Contest = id;
@@ -47,6 +42,7 @@
             return this.View(entries);
         }
 
+        [HttpGet]
         public ActionResult Users(int? page, bool? filter)
         {
             this.ViewBag.filter = filter;
@@ -68,6 +64,7 @@
             return RedirectToAction("Users");
         }
 
+        [HttpGet]
         public ActionResult UnBlockUser(string username)
         {
             var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == username);
@@ -78,6 +75,7 @@
 
         }
 
+        [HttpGet]
         public ActionResult AcceptEntry(int id)
         {
             var entry = this.Data.ContestEntries.All().FirstOrDefault(e => e.Id == id);
@@ -99,6 +97,7 @@
             return RedirectToAction("ContestEntries", new { id = entry.ContestId });
         }
 
+        [HttpGet]
         public ActionResult DeleteEntry(int id)
         {
 

@@ -11,6 +11,8 @@
     using Models;
     using PagedList;
 
+
+    [Authorize(Roles = "Admin")]
     public class HomeController : BaseController
     {
 
@@ -25,6 +27,7 @@
 #endregion
 
         //get all pending entries by contest id
+        [HttpGet]
         public ActionResult Index(int? page)
         {
             var contests = this.Data.Contests.All()

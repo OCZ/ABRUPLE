@@ -10,6 +10,7 @@ namespace Abruple.App.Controllers
     using System.Web.Mvc;
 
     using Abruple.Models;
+    using Abruple.Models.Enums;
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
@@ -117,6 +118,125 @@ namespace Abruple.App.Controllers
 
             return null;
         }
+
+
+     
+        // pepster's code 
+
+        //Cheks if user can uppload pictures/participate in contest  
+        [HttpGet]
+        public ActionResult Participate(int id)
+        {
+            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            //chek if Contest has to be closed
+            if (IfkDeadlineRiched(contest))
+            {
+                contest.State = ContestState.Closed;
+
+                this.Data.SaveChanges();
+
+                return RedirectToAction("Winners", new { closedContest = contest });
+            }
+  
+            var isAllowed = false;
+
+            if (contest.ParticipationStrategy == EntryType.Open)
+            {
+                isAllowed = true;
+            }
+            else
+            {
+                if (UserProfile != null && contest.AllowedParticipants.Contains(UserProfile))
+                {
+                    isAllowed = true;
+                }
+            }
+
+            if (isAllowed)
+            {
+                return null; // has to redirect to Action for upploading picture;
+            }
+
+            this.ViewBag.Msg = "Not allowed Participation";
+            return RedirectToAction("Details", contest.Id);
+
+        }
+
+        //CLOSE CONTEST => called by button CLOSE
+
+        [HttpGet]
+        public ActionResult Close(int id)
+        {
+            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+            contest.State = ContestState.Closed;
+
+            this.Data.SaveChanges();
+
+            return RedirectToAction("Winners", new { closedContest = contest });
+        }
+
+
+        //SET WINNERS FOR THE CONTEST
+        [HttpGet]
+        public ActionResult Winners(Contest closedContest)
+        {
+           
+            //TODO select winner according to reward strategy
+
+            return null;
+        }
+
+        //Dismiss contest -> called by Ditails button
+        [HttpGet]
+        public ActionResult Dismissed(int id)
+        {
+            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if (this.UserProfile.Id != contest.CreatorId)
+            {
+                this.ViewBag.Msg = "action not allowed";
+                return RedirectToAction("Details", new {id = contest.Id});
+            }
+            contest.State = ContestState.Dismissed;
+            this.ViewBag.Msg = "Contest is dismissed";
+            return RedirectToAction("Details", new { id = contest.Id });
+        }
+
+
+        //CHECK if contest has to be closed due to DeadlineStrategy
+        [NonAction]
+        private bool IfkDeadlineRiched(Contest contest)
+        {
+            if ((contest.DeadlineStrategy == DeadlineStrategy.ByParticipants) 
+                && (contest.Participants.Count >= contest.ParticipantCount))
+            {
+                return true;
+            }
+
+            var dateToClose = contest.CreatedOn.AddDays(contest.TimeSpan.Value.Days);
+            if (DateTime.Now >= dateToClose)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+
 
         /*
          * FOR TESTING THE DB -  Uncomment the Index Action

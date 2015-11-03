@@ -230,6 +230,7 @@
     <Compile Include="Controllers\BaseControllers\BaseContestController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseUserController.cs" />
     <Compile Include="Controllers\ContestController.cs" />
+    <Compile Include="Controllers\ContestEntryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -340,7 +341,9 @@
     <Content Include="Views\Contest\Details.cshtml" />
     <Content Include="Views\Contest\ManageContestPartialView.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\ContestEntry\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
