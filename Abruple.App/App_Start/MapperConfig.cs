@@ -5,6 +5,7 @@ namespace Abruple.App.App_Start
     using System.Linq;
     using Abruple.Models;
     using Abruple.Models.Enums;
+    using Areas.Admin.Models;
     using AutoMapper;
     using Models.ViewModels;
     using Models.ViewModels.Contest;
@@ -48,14 +49,37 @@ namespace Abruple.App.App_Start
                     config =>config.MapFrom(
                             ce =>ce.ContestEntries.Count(
                                     cc => cc.IsWinner == true && cc.State != ContestEntryState.Deleted)));
-                       
-            //Mapper.CreateMap<User, UserFullViewModel>()
-            //    .ForMember(model => model.ContestEntries,
-            //        config => config.MapFrom(u => u.ContestEntries.Where(ce => ce.State != ContestEntryState.Deleted).OrderByDescending(ce => ce.Upploaded)))
-            //    .ForMember(model => model.ContestsCreated,
-            //        config => config.MapFrom(u => u.ContestsCreated.OrderByDescending(c => c.CreatedOn)))
-            //    .ForMember(model => model.ContestsParticipated,
-            //        config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
+
+            Mapper.CreateMap<User, AdminUserPersonalDataViewModel>()
+               .ForMember(model => model.ContestsParticipatedCount,
+                   config => config.MapFrom(c => c.ContestsParticipated.Count))
+               .ForMember(model => model.ContestsCreatedCount,
+                   config => config.MapFrom(c => c.ContestsCreated.Count))
+               .ForMember(model => model.PhotosUpplodedCount,
+                   config => config.MapFrom(ce => ce.ContestEntries.Count(cc => cc.State != ContestEntryState.Deleted)))
+               .ForMember(model => model.WinningPhotosCount,
+                   config => config.MapFrom(
+                           ce => ce.ContestEntries.Count(
+                                   cc => cc.IsWinner == true && cc.State != ContestEntryState.Deleted)));
+
+
+            Mapper.CreateMap<Contest, AdminContestConciseViewModel>()
+                .ForMember(model => model.Author, config => config.MapFrom(contest => contest.Creator.UserName))
+                .ForMember(model => model.Date, config => config.MapFrom(contest => contest.CreatedOn))
+                .ForMember(model => model.EntriesCount,
+                    config => config.MapFrom(contest => contest.ContestEntries.Count))
+                .ForMember(model => model.PendingEntriesCount,
+                    config =>
+                        config.MapFrom(
+                            contest => contest.ContestEntries.Count(ce => ce.State == ContestEntryState.Pending)));
+
+            Mapper.CreateMap<User, UserFullViewModel>()
+                .ForMember(model => model.ContestEntries,
+                    config => config.MapFrom(u => u.ContestEntries.Where(ce => ce.State != ContestEntryState.Deleted).OrderByDescending(ce => ce.Upploaded)))
+                .ForMember(model => model.ContestsCreated,
+                    config => config.MapFrom(u => u.ContestsCreated.OrderByDescending(c => c.CreatedOn)))
+                .ForMember(model => model.ContestsParticipated,
+                    config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
 
             Mapper.CreateMap<NewContestBindingModel, Contest>();
 

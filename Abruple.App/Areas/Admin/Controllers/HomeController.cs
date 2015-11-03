@@ -6,8 +6,10 @@
     using Abruple.Models.Enums;
     using App.Controllers.BaseControllers;
     using AutoMapper.QueryableExtensions;
+    using Common;
     using Data.Contracts;
-    using Models.ViewModels.ContestEntry;
+    using Models;
+    using PagedList;
 
     public class HomeController : BaseController
     {
@@ -22,16 +24,17 @@
         }
 #endregion
 
-
-        // ADMIN HOME
-        public ActionResult Index()
+        //get all pending entries by contest id
+        public ActionResult Index(int? page)
         {
-            var entries = this.Data.ContestEntries.All()
-                .Where(e => e.State == ContestEntryState.Pending)
-                .OrderByDescending(e => e.Upploaded)
-                .ProjectTo<ContestEntryShortViewModel>();
+            var contests = this.Data.Contests.All()
+                .Where(c => c.ContestEntries.Any(ce => ce.State == ContestEntryState.Pending))
+                .OrderByDescending(e => e.ContestEntries.Count(ce => ce.State == ContestEntryState.Pending))
+                    .ThenByDescending(c => c.CreatedOn)
+                .ProjectTo<AdminContestConciseViewModel>()
+                .ToPagedList(page ?? GlobalConstants.DefaultStartPage, GlobalConstants.DefaultPageSizeContests);
+            return this.View(contests);
 
-            return this.View();
         }
     }
 }

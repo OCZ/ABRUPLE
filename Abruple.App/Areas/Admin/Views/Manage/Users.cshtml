@@ -1,0 +1,15 @@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model PagedList.IPagedList<Abruple.App.Areas.Admin.Models.AdminUserPersonalDataViewModel>
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @Html.DisplayFor(x => x)
+</div>
+@Html.PagedListPager(Model, page => Url.Action("users", new { page, ViewBag.filter }))

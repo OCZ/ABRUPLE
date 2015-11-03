@@ -1,0 +1,18 @@
+﻿@using Abruple.App.Models.ViewModels.ContestEntry
+
+@using PagedList
+@using PagedList.Mvc
+
+@model PagedList.IPagedList<Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel>
+@{
+    ViewBag.Title = "Pending Contest Entries";
+
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @Html.DisplayFor(x => x)
+</div>
+@Html.PagedListPager(Model, page => Url.Action("ContestEntries", new { page, ViewBag.Contest }))

@@ -1,13 +1,30 @@
-﻿@using Abruple.App.Models.ViewModels.ContestEntry
-@model IEnumerable<Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel>
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model PagedList.IPagedList<Abruple.App.Areas.Admin.Models.AdminContestConciseViewModel>
 @{
-    ViewBag.Title = "Pending Contest Entries";
+    ViewBag.Title = "Manage Contests";
 }
 
 <h2>@ViewBag.Title</h2>
+<hr />
 
-<div class="row">
-    @Html.DisplayFor(x => x)
-
+<div class="container table">
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <td class="col col-xs-push-9">Title</td>
+                <td class="col col-sg-2">Author</td>
+                <td class="col col-sg-2">Date</td>
+                <td class="col col-lg-2">Entries</td>
+                <td class="col col-lg-1">Pending Entries</td>
+            </tr>
+        </thead>
+        <tbody id="contests-table-body">
+            @Html.Partial("_adminContestsListPartial", Model)
+        </tbody>
+    </table>
 </div>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 
