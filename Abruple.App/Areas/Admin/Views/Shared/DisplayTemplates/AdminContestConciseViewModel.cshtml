@@ -1,0 +1,13 @@
+﻿@using Abruple.App.Models.ViewModels.Contest
+
+@model Abruple.App.Areas.Admin.Models.AdminContestConciseViewModel
+
+<tr class="text-left">
+    <td class="col col-xs-push-9">
+        @Html.ActionLink(Model.Title, "ContestEntries", "Manage", new { id = @Model.Id }, new { @class = "btn btn-sm", Title = "Contest details page" })
+    </td>
+    <td class="col col-sg-2">@Model.Author</td>
+    <td class="col col-sg-2">@string.Format("{0:D}", Model.Date)</td>
+    <td class="col col-lg-2">@Model.EntriesCount</td>
+    <td class="col col-lg-1">@Model.PendingEntriesCount</td>
+</tr>

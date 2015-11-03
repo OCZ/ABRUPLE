@@ -221,6 +221,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
+    <Compile Include="Areas\Admin\Models\AdminContestConciseViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUserPersonalDataViewModel.cs" />
+    <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseContestController.cs" />
@@ -266,6 +270,12 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\Admin\Views\Manage\ContestEntries.cshtml" />
+    <Content Include="Areas\Admin\Views\Manage\Users.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\AdminContestConciseViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\AdminUserPersonalDataViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_adminContestsListPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -328,13 +338,8 @@
     <Content Include="Views\Shared\_userPersonalDataPartial.cshtml" />
     <Content Include="Views\Contest\Details.cshtml" />
     <Content Include="Views\Contest\ManageContestPartialView.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Views\User\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

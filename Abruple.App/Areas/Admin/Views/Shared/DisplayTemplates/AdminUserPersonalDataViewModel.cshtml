@@ -1,0 +1,39 @@
+﻿@model Abruple.App.Areas.Admin.Models.AdminUserPersonalDataViewModel
+
+
+<div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+        <h3 class="center-block text-center"> @Model.Username </h3>
+        <hr />
+        <img src=@Url.Content(Model.ProfilePic) alt="Profile Img">
+        <ul class="list-group">
+            <li class="list-group-item ">
+                <span class="badge"><small>@Model.ContestsCreatedCount</small></span>
+                <small> Contest Created</small>
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><small>@Model.ContestsParticipatedCount</small></span>
+                <small>Contests Participated</small>
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><small>@Model.PhotosUpplodedCount</small></span>
+                <small> Upploded Photos</small>
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><small>@Model.WinningPhotosCount</small></span>
+                <small> Winning Photos</small>
+            </li>
+        </ul>
+
+        <div>
+            @if (Model.IsBlocked)
+            {
+                @Html.ActionLink("UnBlock", "UnBlockUser", "Manage", new { username = Model.Username }, new { @class = "btn btn-success btn-xs " })
+            }
+            else
+            {
+                @Html.ActionLink("Block", "BlockUser", "Manage", new { username = Model.Username }, new { @class = "btn btn-danger btn-xs" })
+            }
+        </div>
+    </div>
+</div>
