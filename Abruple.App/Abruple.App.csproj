@@ -246,6 +246,7 @@
     <Compile Include="Models\ViewModels\ContestEntry\ContestEntryConciseViewModel.cs" />
     <Compile Include="Models\ViewModels\ContestEntry\ContestEntryShortViewModel.cs" />
     <Compile Include="Models\ViewModels\Contest\ContestConciseViewModel.cs" />
+    <Compile Include="Models\ViewModels\Contest\ContestDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModels\User\UserFullViewModel.cs" />

@@ -21,6 +21,16 @@ namespace Abruple.App.App_Start
                 .ForMember(model => model.Date, config => config.MapFrom(contest => contest.CreatedOn))
                 .ForMember(model => model.EntriesCount, config => config.MapFrom(contest => contest.ContestEntries.Count));
 
+            // CONTEST => CONTEST DETAILS VIEW MODEL
+            Mapper.CreateMap<Contest, ContestDetailsViewModel>()
+                .ForMember(vm => vm.Id, cfg => cfg.MapFrom(c => c.Id))
+                .ForMember(vm => vm.Title, cfg => cfg.MapFrom(c => c.Title))
+                .ForMember(vm => vm.Description, cfg => cfg.MapFrom(c => c.Description))
+                .ForMember(vm => vm.Author, cfg => cfg.MapFrom(c => c.Creator.UserName))
+                .ForMember(vm => vm.Date, cfg => cfg.MapFrom(c => c.CreatedOn))
+                .ForMember(vm => vm.ParticipantCount, cfg => cfg.MapFrom(c => c.ParticipantCount))
+                .ForMember(vm => vm.TimeSpan, cfg => cfg.MapFrom(c => c.TimeSpan));
+
             Mapper.CreateMap<ContestEntry, ContestEntryConciseViewModel>()
                 .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
                 .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))

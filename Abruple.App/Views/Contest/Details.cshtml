@@ -1,4 +1,4 @@
-﻿@*@model Abruple.App.Models.ViewModels.Contest.ContestConciseViewModel*@
+﻿@model Abruple.App.Models.ModelWrapper
 
 <h2 class="page-header">Contest</h2>
 
@@ -6,20 +6,17 @@
     <div class="container">
         <div class="panel-heading">
             <span class="pull-right small glyphicon glyphicon-calendar">
-                <time class="text">Created on: 01.01.2001</time>
-                by
-                @Html.ActionLink(" Username", null, null, new { @class = "glyphicon glyphicon-user" }) <!--ON HOVER SHOW USER INFO-->
+                <time class="text">@string.Format("{0:D}",Model.ContestDetailsViewModel.Date.Date)</time>
+                @Html.ActionLink(@Model.ContestDetailsViewModel.Author, "Search", "User", new { name = @Model.ContestDetailsViewModel.Author }, new { @class = "glyphicon glyphicon-user" }) <!--ON HOVER SHOW USER INFO-->
             </span>
             <h3 class="text text-success">
-                Contest Title!
+                @Model.ContestDetailsViewModel.Title
             </h3>
         </div>
         <div class="panel-body">
-            <h3>Content description:</h3>
+            <h4>Contest description:</h4>
             <p class="text text-primary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Maecenas vehicula sodales hendrerit. Quisque suscipit posuere finibus.
-                Ut gravida lectus est, sit amet ultrices enim vestibulum ut.
+               @Model.ContestDetailsViewModel.Description
             </p>
         </div>
         <div class="panel-footer">
@@ -30,10 +27,20 @@
                 <input type="file">
             </span>*@
 
-            <span class="glyphicon glyphicon-time pull-right text text-info">
-                <span class="text text-info">Timeleft --;-- / Max players 0/100</span>
+            <div class="pull-right">
+                @if (Model.ContestDetailsViewModel.TimeSpan != null)
+                {
+                    <span class="glyphicon glyphicon-time text text-info"></span>
+                    <span class="text text-info">Timeleft --;--</span>
+                }
+                else
+                {
+                    <span class="text text-info">Max players 0/100</span>
+                }
+                <!--TODO: IF CONTEST IS PRIVATE SHOW LOCK ICON ELSE HIDE-->
+                @*LOCK ICON*@
                 <span class="glyphicon glyphicon-lock text-danger"></span>
-            </span>
+            </div>
         </div>
     </div>
 </div>

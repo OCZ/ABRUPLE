@@ -1,17 +1,16 @@
 ﻿namespace Abruple.App.Controllers
 {
-
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
-    using Abruple.Models;
-    using Abruple.Models.Enums;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
+
     using BaseControllers;
     using Data.Contracts;
+
+    using AutoMapper;
+
+    using Abruple.Models;
+    using Abruple.Models.Enums;
     using Models.ViewModels.ContestEntry;
 
     [Authorize]

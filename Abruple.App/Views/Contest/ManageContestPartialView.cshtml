@@ -1,4 +1,4 @@
-﻿@if (this.User.IsInRole("Contest-Creator, Admin")) // REMOVE THE ROLE JUST TO CHECK THE VIEW
+﻿@if (this.User.IsInRole("Admin") || this.User.IsInRole("Contest-Creator"))
 {
     <button class="btn btn-success">
         <span class="glyphicon glyphicon-ok-circle"></span>

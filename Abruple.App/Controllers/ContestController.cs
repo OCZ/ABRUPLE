@@ -64,13 +64,16 @@ namespace Abruple.App.Controllers
         }
 
         // GET CONTEST DETAILS
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             var contest = this.Data.Contests.All()
                 .Where(c => c.Id == id)
-                .ProjectTo<ContestConciseViewModel>();
+                .ProjectTo<ContestDetailsViewModel>().FirstOrDefault();
 
-            return this.View("Details"/*, contest.First()*/);
+            var result = new ModelWrapper() { ContestDetailsViewModel = contest};
+
+            return this.View("Details", result);
         }
 
         // NEW CONTEST
