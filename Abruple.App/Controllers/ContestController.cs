@@ -103,7 +103,7 @@ namespace Abruple.App.Controllers
 
         // SEARCH CONTEST
         [HttpGet]
-        public ActionResult Search(string name)
+        public JsonResult Search(string name)
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
