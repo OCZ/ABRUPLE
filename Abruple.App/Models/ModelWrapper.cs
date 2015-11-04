@@ -1,10 +1,11 @@
-﻿using Abruple.App.Models.BindingModels.Contest;
-using Abruple.App.Models.ViewModels.ContestEntry;
-using Abruple.App.Models.ViewModels.User;
-
-namespace Abruple.App.Models
+﻿namespace Abruple.App.Models
 {
+
+    using Abruple.App.Models.BindingModels.Contest;
+    using Abruple.App.Models.ViewModels.ContestEntry;
+    using Abruple.App.Models.ViewModels.User;
     using BindingModels.ContestEntry;
+    using PagedList;
     using ViewModels.Contest;
 
     public class ModelWrapper
@@ -18,5 +19,7 @@ namespace Abruple.App.Models
         public ContestDetailsViewModel ContestDetailsViewModel { get; set; }
 
         public NewContestEntryBindingModel NewContestEntryBindingModel { get; set; }
+        
+        public IPagedList<ContestEntryShortViewModel> ContestEntryShortViewModel { get; set; }
     }
 }

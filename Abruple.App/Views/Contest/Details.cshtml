@@ -45,8 +45,16 @@
 
 
 <div class="container">
-    <!--TODO: CONTEST ENTRY PARTIAL-->
-    <!--TODO: DISPLAY FOR CONTEST ENTRIES COLLECTION-->
+    <h2> Active Contest Entries </h2>
+    <hr />
+    @if (Model.ContestEntryShortViewModel.Count == 0)
+    {
+        <p>NO  CONTEST  ENTRIES  UPLOADED  YET </p>
+    }
+    else
+    {
+        @Html.Partial("_contestEntryPartial");
+    }
 </div>
 
 @Scripts.Render("~/bundles/jqueryval")

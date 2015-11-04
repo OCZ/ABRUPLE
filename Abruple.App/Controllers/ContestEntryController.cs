@@ -61,17 +61,17 @@
                 return this.HttpNotFound();
             }
 
-            //chek if Contest has to be closed
-            if (this.IfkDeadlineRiched(entry.ContestId))
-            {
-                
-               entry.Contest.State = ContestState.Closed;
+            ////chek if Contest has to be closed
+            //if (this.IfkDeadlineRiched(entry.ContestId))
+            //{
 
-                this.Data.SaveChanges();
+            //   entry.Contest.State = ContestState.Closed;
 
-                return RedirectToAction("Winners", "Contest", new { closedContest = entry.Contest });
-            }
-  
+            //    this.Data.SaveChanges();
+
+            //    return RedirectToAction("Winners", "Contest", new { closedContest = entry.Contest });
+            //}
+
 
             bool votable = false;
 
@@ -90,7 +90,7 @@
                 if (this.UserProfile != null & this.CheckMultipleUserVoting(entry.Id))
                 {
                     this.ViewBag.Msg = "already voted";
-                    return RedirectToAction("Details", new { id = entry.Id });
+                    return RedirectToAction("Details", "Contest", new { id = entry.ContestId });
                 }
 
                 this.Data.Votes.Add(new Vote()
@@ -101,12 +101,12 @@
                 this.Data.SaveChanges();
 
                 this.ViewBag.Msg = "+1 vote added";
-                return RedirectToAction("Details", new { id = entry.Id });
+                return RedirectToAction("Details", "Contest", new { id = entry.ContestId });
             }
             else
             {
                 this.ViewBag.Msg = "Not Allowed to vote";
-                return RedirectToAction("Details", new { id = entry.Id });
+                return RedirectToAction("Details", "Contest", new { id = entry.ContestId });
             }
             return null;
         }

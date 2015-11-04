@@ -1,0 +1,9 @@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model Abruple.App.Models.ModelWrapper
+
+<div class="row">
+    @Html.DisplayFor(x => x.ContestEntryShortViewModel)
+</div>
+@Html.PagedListPager(Model.ContestEntryShortViewModel, page => Url.Action("Details", "Contest", new { page, ViewBag.Contest }))

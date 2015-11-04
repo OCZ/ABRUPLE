@@ -14,10 +14,13 @@ namespace Abruple.App.Controllers
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
+    using Common;
     using Data.Contracts;
 
     using Models.BindingModels.Contest;
     using Models.ViewModels.Contest;
+    using Models.ViewModels.ContestEntry;
+    using PagedList;
 
     [Authorize]
     public class ContestController : BaseContestController
@@ -65,13 +68,28 @@ namespace Abruple.App.Controllers
 
         // GET CONTEST DETAILS
         [AllowAnonymous]
-        public ActionResult Details(int id)
+        public ActionResult Details(int? page, int id)
         {
+            this.ViewBag.Contest = id;
+            this.ViewBag.Page = page;
+
             var contest = this.Data.Contests.All()
                 .Where(c => c.Id == id)
                 .ProjectTo<ContestDetailsViewModel>().FirstOrDefault();
 
-            var result = new ModelWrapper() { ContestDetailsViewModel = contest};
+            var entries = this.Data.ContestEntries.All()
+                .Where(ce => ce.ContestId == id)
+                .Where(ce => ce.State == ContestEntryState.Acceppted)
+                 .OrderByDescending(e => e.Upploaded)
+                .ProjectTo<ContestEntryShortViewModel>()
+                .ToPagedList(page ?? GlobalConstants.DefaultStartPage, GlobalConstants.DefaultPageSizeCe); ;
+
+
+            var result = new ModelWrapper()
+            {
+                ContestDetailsViewModel = contest,
+                ContestEntryShortViewModel = entries
+            };
 
             return this.View("Details", result);
         }
