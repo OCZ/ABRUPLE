@@ -1,0 +1,12 @@
+﻿@model Abruple.App.Models.ModelWrapper
+
+@Html.ValidationSummary("", new { @class = "text-danger" })
+<div>
+    @Html.LabelFor(m => m.NewContestEntryBindingModel.Title, new {@class = "label-default"})
+    @Html.TextBoxFor(m => m.NewContestEntryBindingModel.Title, new {@class = "form-control"})
+</div>
+
+<div>
+    @Html.LabelFor(m => m.NewContestEntryBindingModel.ImageInputFile, new {@class="label-default"})
+    @Html.TextBoxFor(m => m.NewContestEntryBindingModel.ImageInputFile, new {@class="btn btn-success",type = "file"})
+</div>

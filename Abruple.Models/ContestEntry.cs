@@ -20,6 +20,7 @@
         public int Id { get; set; }
 
         [Required]
+        [StringLength(50, MinimumLength = 1)]
         public string Title { get; set; }
 
         [Required]

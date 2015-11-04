@@ -35,7 +35,6 @@
                     <li>
                         @if (@User.Identity.IsAuthenticated)
                         {
-                            // TODO: THINK ABOUT FORGERY TOKEN ? Y/N
                             using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "navbar-form", role = "search" }))
                             {
                                 <div class="input-group">
@@ -81,7 +80,7 @@
     @RenderSection("scripts", required: false)
     <script>
         $(document).ready(function () {
-            $('#create-contest-form-content').draggable();
+            $('.modal-content').draggable();
 
             var contestStrategy = $(".contest-strategy");
 
