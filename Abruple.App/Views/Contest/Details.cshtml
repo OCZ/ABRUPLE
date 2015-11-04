@@ -19,13 +19,11 @@
                @Model.ContestDetailsViewModel.Description
             </p>
         </div>
-        <div class="panel-footer">
-            
-            @Html.Partial("ManageContestPartialView")
+        <div class="panel-footer clearfix">
 
-            @*<span class="btn btn-success btn-file">
-                <input type="file">
-            </span>*@
+            <div class="pull-left">
+                @Html.Partial("ManageContestPartialView")
+            </div>
 
             <div class="pull-right">
                 @if (Model.ContestDetailsViewModel.TimeSpan != null)

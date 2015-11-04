@@ -11,6 +11,7 @@
 
     using Abruple.Models;
     using Abruple.Models.Enums;
+    using Models;
     using Models.ViewModels.ContestEntry;
 
     [Authorize]
@@ -28,6 +29,12 @@
         {
         }
         #endregion
+
+        // CREATE CONTEST ENTRY
+        public ActionResult NewEntry()
+        {
+            return this.Content("Created entry!");
+        }
 
         // GET: GET ContestEntry (not Pending, not Deleted) by id
         public ActionResult Details(int id)
