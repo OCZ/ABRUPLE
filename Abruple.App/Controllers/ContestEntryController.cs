@@ -142,8 +142,8 @@
                 return true;
             }
 
-            var dateToClose = contest.CreatedOn.AddDays(contest.TimeSpan.Value.Days);
-            if (DateTime.Now >= dateToClose)
+            
+            if (DateTime.Now >= contest.EndDate)
             {
                 return true;
             }

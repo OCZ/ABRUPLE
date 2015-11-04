@@ -22,7 +22,7 @@
         // DEADLINE BY TIME OR PARTICIPANT LIMIT
 
         // TIME
-        public TimeSpan? TimeSpan { get; set; }
+        public DateTime? EndDate { get; set; }
 
         // PARTICIPANTS
         public int? ParticipantCount { get; set; }

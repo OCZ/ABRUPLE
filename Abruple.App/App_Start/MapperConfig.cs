@@ -30,7 +30,7 @@ namespace Abruple.App.App_Start
                 .ForMember(vm => vm.Author, cfg => cfg.MapFrom(c => c.Creator.UserName))
                 .ForMember(vm => vm.Date, cfg => cfg.MapFrom(c => c.CreatedOn))
                 .ForMember(vm => vm.ParticipantCount, cfg => cfg.MapFrom(c => c.ParticipantCount))
-                .ForMember(vm => vm.TimeSpan, cfg => cfg.MapFrom(c => c.TimeSpan));
+                .ForMember(vm => vm.EndDate, cfg => cfg.MapFrom(c => c.EndDate));
 
             Mapper.CreateMap<ContestEntry, ContestEntryConciseViewModel>()
                 .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
