@@ -34,7 +34,7 @@ else
                         <h4 class="modal-title">Entry</h4>
                     </div>
                     <div id="entry-modal-body" class="modal-body">
-                        @Html.EditorFor(m => m.NewContestEntryBindingModel)
+                        @Html.EditorForModel("NewContestEntryBindingModel")
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" data-target="#create-contest-entry-form-dialog">Cancel</button>

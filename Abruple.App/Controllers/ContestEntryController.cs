@@ -12,6 +12,7 @@
     using Abruple.Models;
     using Abruple.Models.Enums;
     using Models;
+    using Models.BindingModels.ContestEntry;
     using Models.ViewModels.ContestEntry;
 
     [Authorize]
@@ -31,9 +32,9 @@
         #endregion
 
         // CREATE CONTEST ENTRY
-        public ActionResult NewEntry()
+        public ActionResult NewEntry(ModelWrapper model)
         {
-            return this.Content("Created entry!");
+            return this.Json(model.NewContestEntryBindingModel);
         }
 
         // GET: GET ContestEntry (not Pending, not Deleted) by id

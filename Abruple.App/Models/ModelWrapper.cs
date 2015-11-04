@@ -1,9 +1,8 @@
 ﻿namespace Abruple.App.Models
 {
-
-    using Abruple.App.Models.BindingModels.Contest;
-    using Abruple.App.Models.ViewModels.ContestEntry;
-    using Abruple.App.Models.ViewModels.User;
+    using BindingModels.Contest;
+    using ViewModels.ContestEntry;
+    using ViewModels.User;
     using BindingModels.ContestEntry;
     using PagedList;
     using ViewModels.Contest;

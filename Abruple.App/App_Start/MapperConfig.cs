@@ -7,6 +7,7 @@ namespace Abruple.App.App_Start
     using Abruple.Models.Enums;
     using Areas.Admin.Models;
     using AutoMapper;
+    using Models.BindingModels.ContestEntry;
     using Models.ViewModels;
     using Models.ViewModels.Contest;
     using Models.ViewModels.ContestEntry;
@@ -92,7 +93,6 @@ namespace Abruple.App.App_Start
                     config => config.MapFrom(u => u.ContestsParticipated.Where(c => c.State != ContestState.Active).OrderByDescending(c => c.CreatedOn)));
 
             Mapper.CreateMap<NewContestBindingModel, Contest>();
-
             //Mapping with inheritance
             //Mapper.CreateMap<ParentSource, ParentDestination>()
             //.Include<ChildSource, ChildDestination>();
