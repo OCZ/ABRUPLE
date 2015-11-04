@@ -23,7 +23,7 @@ else
         Participate
     </button>
 
-    using (Html.BeginForm("NewEntry", "ContestEntry", FormMethod.Post, new { @class = "navbar-right", id = "create-entry-create-form" }))
+    using (Html.BeginForm("NewEntry", "ContestEntry", FormMethod.Post, new { enctype = "multipart/form-data", id = "create-entry-create-form" }))
     {
         @Html.AntiForgeryToken()
         <div id="create-contest-entry-form-dialog" class="modal fade" role="dialog">
