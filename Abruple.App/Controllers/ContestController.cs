@@ -73,9 +73,9 @@
         [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
-        public ActionResult NewContest(ModelWrapper model)
+        public ActionResult NewContest(NewContestBindingModel model)
         {
-            if (model.NewContestBindingModel == null)
+            if (model == null)
             {
                 return this.HttpNotFound();
             }
@@ -87,39 +87,37 @@
 
             var contest = new Contest()
             {
-                Title = model.NewContestBindingModel.Title,
-                Description = model.NewContestBindingModel.Description,
-                VotingStrategy = model.NewContestBindingModel.VotingStrategy,
-                ParticipationStrategy = model.NewContestBindingModel.ParticipationStrategy,
-                DeadlineStrategy = model.NewContestBindingModel.DeadlineStrategy,
-                EndDate = model.NewContestBindingModel.EndDate,
-                ParticipantCount = model.NewContestBindingModel.ParticipantCount,
-                RewardStrategy = model.NewContestBindingModel.RewardStrategy,
+                Title = model.Title,
+                Description = model.Description,
+                VotingStrategy = model.VotingStrategy,
+                ParticipationStrategy = model.ParticipationStrategy,
+                DeadlineStrategy = model.DeadlineStrategy,
+                EndDate = model.EndDate,
+                ParticipantCount = model.ParticipantCount,
+                RewardStrategy = model.RewardStrategy,
                 CreatedOn = DateTime.Now,
                 CreatorId = User.Identity.GetUserId()
             };
 
+
+            if (model.Committee.Length!= 0)
+            {
+                foreach (var user in model.Committee.Select(t => this.Data.Users.All().FirstOrDefault(u => u.UserName == t)).Where(user => user != null))
+                {
+                    contest.Committee.Add(user);
+                }
+            }
+
+            if (model.AllowedParticipants.Length != 0)
+            {
+                foreach (var user in model.AllowedParticipants.Select(t => this.Data.Users.All().FirstOrDefault(u => u.UserName == t)).Where(user => user != null))
+                {
+                    contest.AllowedParticipants.Add(user);
+                }
+            }
+            
+
             this.Data.Contests.Add(contest);
-            this.Data.SaveChanges();
-            var resultContest = this.Data.Contests.All().FirstOrDefault(c => c.Id == contest.Id);
-            for (int i = 0; i < model.NewContestBindingModel.Committee.Length; i++)
-            {
-                var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == model.NewContestBindingModel.Committee[i]);
-                if (user != null)
-                {
-                    resultContest.Committee.Add(user);
-                }
-            }
-
-            for (int i = 0; i < model.NewContestBindingModel.AllowedParticipants.Length; i++)
-            {
-                var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == model.NewContestBindingModel.AllowedParticipants[i]);
-                if (user != null)
-                {
-                    resultContest.AllowedParticipants.Add(user);
-                }
-            }
-
             this.Data.SaveChanges();
 
             var hub = new ContestsHub();
@@ -311,6 +309,12 @@
             return RedirectToAction("Details", new { id = contest.Id });
         }
 
+        [HttpGet]
+        public ActionResult Finalize(int id)
+        {
+            this.Close(id);
+            return RedirectToAction("Details", new {id = id});
+        }
 
         //CHECK if contest has to be closed due to DeadlineStrategy
         [NonAction]

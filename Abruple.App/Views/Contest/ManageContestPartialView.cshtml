@@ -1,11 +1,12 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Abruple.App.Models
+@using Microsoft.AspNet.Identity
 @model Abruple.App.Models.ModelWrapper
 
 @if (this.User.IsInRole("Admin") || Model.ContestDetailsViewModel.Author == this.User.Identity.GetUserName())
 {
     <button class="btn btn-success">
         <span class="glyphicon glyphicon-ok-circle"></span>
-        Finalize
+        @Html.ActionLink("Finalize", "Finalize", "Contest", new { id = Model.ContestDetailsViewModel.Id }, null)
     </button>
     <button class="btn btn-warning">
         <span class="glyphicon glyphicon-wrench"></span>
@@ -13,7 +14,7 @@
     </button>
     <button class="btn btn-danger">
         <span class="glyphicon glyphicon-remove-circle"></span>
-        Dismiss
+        @Html.ActionLink("Dismiss", "Dismissed", "Contest", new { id = Model.ContestDetailsViewModel.Id }, null)
     </button>
 }
 else
