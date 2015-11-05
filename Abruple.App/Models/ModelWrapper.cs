@@ -1,4 +1,6 @@
-﻿namespace Abruple.App.Models
+﻿using Abruple.App.Models.BindingModels.Profile;
+
+namespace Abruple.App.Models
 {
     using BindingModels.Contest;
     using ViewModels.ContestEntry;
@@ -20,5 +22,10 @@
         public NewContestEntryBindingModel NewContestEntryBindingModel { get; set; }
         
         public IPagedList<ContestEntryShortViewModel> ContestEntryShortViewModel { get; set; }
+
+        public EditProfileBindingModel EditProfileBindingModel { get; set; }
+
+        public IPagedList<ContestEntryShortViewModel> ContestWinners { get; set; }
+
     }
 }

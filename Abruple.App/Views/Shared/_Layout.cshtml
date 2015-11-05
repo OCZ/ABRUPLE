@@ -78,6 +78,159 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/custum/forms.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.modal-content').draggable();
+
+            var contestStrategy = $(".contest-strategy");
+
+            contestStrategy.change(function () {
+                var strategyName = (this).id;
+                var strategyValue = $(this).val();
+
+                //The code below is in construction don't expect it to work 100% of the time :)
+                switch (strategyName) {
+                case "contest-reward-strategy":
+                    if (strategyValue == 0) {
+                        $("#contest-reward").remove();
+                    } else {
+                        $("<input type='number' min='2' id='contest-reward' class='form-control'>").appendTo($("#contest-reward-field"));
+                    }
+                    break;
+                case "contest-deadline-strategy":
+                    //TODO: Date picker should show by default and not only when selected.
+                    if (strategyValue == 0) {
+                        $("#contest-deadline-number").remove();
+                        $("<input type='date' min='2' id='contest-deadline-date' class='form-control'>").appendTo($("#contest-deadline-field"));
+                    } else {
+                        $("#contest-deadline-date").remove();
+                        $("<input type='number' min='2' id='contest-deadline-number' class='form-control'>").appendTo($("#contest-deadline-field"));
+                    }
+                    break;
+                case "contest-voting-strategy":
+                    if (strategyValue == 0) {
+                        $("#contest-voting").remove();
+                    } else {
+                        $("<input type='text' min='2' id='contest-voting' class='form-control'>").appendTo($("#contest-voting-field"));
+                    }
+                    break;
+                case "contest-participation-strategy":
+                    if (strategyValue == 0) {
+                        $("#contest-participation").remove();
+                    } else {
+                        $("<input type='text' min='2' id='contest-participation' class='form-control'>").appendTo($("#contest-participation-field"));
+
+                        $("<ul id='users'></ul>").appendTo($("#contest-participation-field"));
+                    }
+                    break;
+                default:
+                }
+
+                $("#contest-participation").keyup(function () {
+                    var input = $("#contest-participation");
+
+                   //addUser is used to tell the function where you're calling it from.
+                   autocompleteInput(input, "User","addUser");
+                });
+
+                $("#contest-participation").focus(function () {
+                    var input = $("#contest-participation");
+
+                    //addUser is used to tell the function where you're calling it from.
+                    autocompleteInput(input, "User", "addUser");
+                });
+
+                //On Enter click it adds the <li> perma to the <ul>
+                $("#contest-participation").on("keypress", function (e) {
+                    if (e.keyCode == 13) {
+                        //TODO: Simplify and optimize.
+                        //TODO: Fix X buttons padding and functionality.
+                        var entityId = "#" + $("#contest-participation").val();
+
+                        if  (!$(entityId).length) {
+                            $("<li class='li' id='" + $("#contest-participation").val() + "'>"
+                            + $("#contest-participation").val() +
+                            "<button type='button' class='close'>" +
+                            "&times;</button></li>").appendTo($("#users"));
+
+                            $(".close").click(function () {
+                                $(this).closest('.li').remove();
+
+                            });
+                            $("#contest-participation").val('');
+                        }
+
+                        return false; // prevent the button click from happening
+                    }
+                });
+
+            });
+        });
+    </script>
+
+    <!--SEARCH AUTOCOMPLETE-->
+<script>
+    var inputSearch = $(".input-search");
+    var searchType = $(".search-type");
+
+    var autocompleteInput = function (inputElement, searchType, caller) {
+        var inputValue = inputElement.val();
+        searchType = $("#active-search-type").text();
+        var queryString = searchType + "/Search";
+
+        $.getJSON(queryString, { name: inputValue }, function (response) {
+            if (response.length) {
+
+                //console.clear();
+                if (searchType == "User") {
+                    response.forEach(function(result) {
+                        if (caller == "addUser") {
+                            //Here you write the code for the form.
+                        } else {
+                            //Here you write the code for the search bar.
+                        }
+                    });
+
+                } else {
+                    response.forEach(function (result) {
+                        var contestId = result["Id"];
+                        var contestTitle = result["Title"];
+
+                        console.log(contestId);
+                        console.log(contestTitle);
+                    });
+                }                   
+            } else {
+                console.clear();
+            }
+        });
+    }
+
+    // LISTENERS
+
+    // SERCH INPUT ON KEY PRESS
+    inputSearch.keyup(function () {
+        autocompleteInput(inputSearch,searchType,"Search");
+    });
+    // SERCH INPUT ON FOCUS
+    inputSearch.focus(function () {
+        autocompleteInput(inputSearch,searchType,"Search");
+    });
+
+
+    // SEARCH TYPE ON CLICK
+    searchType.click(function () {
+        var searchTypeValue = this.id;
+
+        switch (searchTypeValue) {
+        case "search-type-contest":
+            $("#active-search-type").text("Contest");
+            break;
+        case "search-type-user":
+        default:
+            $("#active-search-type").text("User");
+        }
+    });
+</script>
 </body>
 </html>

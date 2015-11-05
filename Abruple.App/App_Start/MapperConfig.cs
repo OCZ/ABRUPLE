@@ -7,7 +7,6 @@ namespace Abruple.App.App_Start
     using Abruple.Models.Enums;
     using Areas.Admin.Models;
     using AutoMapper;
-    using Models.BindingModels;
     using Models.BindingModels.ContestEntry;
     using Models.ViewModels;
     using Models.ViewModels.Contest;
@@ -39,9 +38,10 @@ namespace Abruple.App.App_Start
                 .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
 
             Mapper.CreateMap<ContestEntry, ContestEntryShortViewModel>()
-               .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
-               .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
-               .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
+              .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
+              .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
+              .ForMember(model => model.ContestState, config => config.MapFrom(contestEntry => contestEntry.Contest.State))
+              .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
 
             Mapper.CreateMap<Vote, VoteViewModel>()
                 .ForMember(model => model.Autor, config => config.MapFrom(vote => vote.Author.UserName));
@@ -97,11 +97,6 @@ namespace Abruple.App.App_Start
             //Mapping with inheritance
             //Mapper.CreateMap<ParentSource, ParentDestination>()
             //.Include<ChildSource, ChildDestination>();
-
-            Mapper.CreateMap<Contest, NewContestBindingModel>()
-                .ForMember(model => model.Committee, config => config.MapFrom(c => c.Committee))
-                .ForMember(model => model.AllowedParticipants, config => config.MapFrom(c => c.AllowedParticipants))
-                .ReverseMap();
         }
     }
 }

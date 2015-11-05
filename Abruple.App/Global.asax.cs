@@ -1,4 +1,6 @@
-﻿namespace Abruple.App
+﻿using Parse;
+
+namespace Abruple.App
 {
     using System;
     using System.Collections.Generic;
@@ -25,6 +27,7 @@
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ParseClient.Initialize("qFcw3fKZ3jB1jjse1PJmGOJ6NsPcW88EK43Ofixb", "rVGwZ4QQb0hLe9urvDHSq4F98YUOla7vTB64vsf6");
         }
     }
 }
