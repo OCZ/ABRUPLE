@@ -1,0 +1,12 @@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model Abruple.App.Models.ModelWrapper
+
+<h2> Winners </h2>
+<hr />
+
+<div class="row">
+    @Html.DisplayFor(x => x.ContestWinners)
+</div>
+@Html.PagedListPager(Model.ContestWinners, page => Url.Action("Details", "Contest", new { page, ViewBag.Contest }))

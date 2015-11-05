@@ -20,5 +20,7 @@
         public NewContestEntryBindingModel NewContestEntryBindingModel { get; set; }
         
         public IPagedList<ContestEntryShortViewModel> ContestEntryShortViewModel { get; set; }
+
+        public IPagedList<ContestEntryShortViewModel> ContestWinners { get; set; }
     }
 }

@@ -353,6 +353,7 @@
     <Content Include="Views\Shared\EditorTemplates\NewContestEntryBindingModel.cshtml" />
     <Content Include="Views\Shared\_contestEntryPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
+    <Content Include="Views\Shared\_contestEntryWinnersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ContestEntry\" />

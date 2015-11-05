@@ -1,4 +1,5 @@
-﻿@model Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel
+﻿@using Abruple.Models.Enums
+@model Abruple.App.Models.ViewModels.ContestEntry.ContestEntryShortViewModel
 
 
 <div class="col-sm-6 col-md-2">
@@ -10,7 +11,11 @@
 
             <p>Votes: @Model.Votes</p>
 
+           @if (Model.ContestState == ContestState.Active)
+           {
             @Html.ActionLink("VOTE", "Vote", "ContestEntry", new { id = Model.Id }, new { @class = "btn btn-success btn-xs " })
+           }
+
 
             @*@Html.ActionLink("REPORT", null, "ContestEntry", new { id = Model.Id }, new { @class = "btn btn-danger btn-xs" })*@
         </div>
