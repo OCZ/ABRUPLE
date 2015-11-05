@@ -73,9 +73,9 @@
         [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
-        public ActionResult NewContest(NewContestBindingModel model)
+        public ActionResult NewContest(ModelWrapper model)
         {
-            if (model == null)
+            if (model.NewContestBindingModel == null)
             {
                 return this.HttpNotFound();
             }
@@ -85,11 +85,41 @@
                 return this.HttpNotFound();
             }
 
-            var contest = Mapper.Map<NewContestBindingModel, Contest>(model);
-            contest.CreatedOn = DateTime.Now;
-            contest.CreatorId = User.Identity.GetUserId();
+            var contest = new Contest()
+            {
+                Title = model.NewContestBindingModel.Title,
+                Description = model.NewContestBindingModel.Description,
+                VotingStrategy = model.NewContestBindingModel.VotingStrategy,
+                ParticipationStrategy = model.NewContestBindingModel.ParticipationStrategy,
+                DeadlineStrategy = model.NewContestBindingModel.DeadlineStrategy,
+                EndDate = model.NewContestBindingModel.EndDate,
+                ParticipantCount = model.NewContestBindingModel.ParticipantCount,
+                RewardStrategy = model.NewContestBindingModel.RewardStrategy,
+                CreatedOn = DateTime.Now,
+                CreatorId = User.Identity.GetUserId()
+            };
 
             this.Data.Contests.Add(contest);
+            this.Data.SaveChanges();
+            var resultContest = this.Data.Contests.All().FirstOrDefault(c => c.Id == contest.Id);
+            for (int i = 0; i < model.NewContestBindingModel.Committee.Length; i++)
+            {
+                var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == model.NewContestBindingModel.Committee[i]);
+                if (user != null)
+                {
+                    resultContest.Committee.Add(user);
+                }
+            }
+
+            for (int i = 0; i < model.NewContestBindingModel.AllowedParticipants.Length; i++)
+            {
+                var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == model.NewContestBindingModel.AllowedParticipants[i]);
+                if (user != null)
+                {
+                    resultContest.AllowedParticipants.Add(user);
+                }
+            }
+
             this.Data.SaveChanges();
 
             var hub = new ContestsHub();
@@ -97,6 +127,35 @@
 
             return RedirectToAction("Index", "Contest");
         }
+
+        //// NEW CONTEST
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //[HttpPost]
+        //public ActionResult NewContest(NewContestBindingModel model)
+        //{
+        //    if (model == null)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
+
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
+
+        //    var contest = Mapper.Map<NewContestBindingModel, Contest>(model);
+        //    contest.CreatedOn = DateTime.Now;
+        //    contest.CreatorId = User.Identity.GetUserId();
+
+        //    this.Data.Contests.Add(contest);
+        //    this.Data.SaveChanges();
+
+        //    var hub = new ContestsHub();
+        //    hub.UpdateContest();
+
+        //    return RedirectToAction("Index", "Contest");
+        //}
 
         // GET CONTEST DETAILS
         [AllowAnonymous]
@@ -135,35 +194,6 @@
             return this.View("Details", result);
         }
 
-        //// NEW CONTEST
-        //[ValidateAntiForgeryToken]
-        //[Authorize]
-        //[HttpPost]
-        //public ActionResult NewContest(ModelWrapper model)
-        //{
-        //    if (model.NewContestBindingModel == null)
-        //    {
-        //        return this.HttpNotFound();
-        //    }
-
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        return this.HttpNotFound();
-        //    }
-
-        //    var contest = Mapper.Map<NewContestBindingModel, Contest>(model.NewContestBindingModel);
-        //    contest.CreatedOn = DateTime.Now;
-        //    contest.CreatorId = User.Identity.GetUserId();
-
-        //    this.Data.Contests.Add(contest);
-        //    this.Data.SaveChanges();
-
-        //    var hub = new ContestsHub();
-        //    hub.UpdateContest();
-
-        //    return RedirectToAction("Index", "Contest");
-        //}
-
         // SEARCH CONTEST
         [HttpGet]
         public JsonResult Search(string name)
@@ -180,8 +210,6 @@
 
             return null;
         }
-
-
      
         // pepster's code 
 
@@ -198,13 +226,11 @@
             //chek if Contest has to be closed
             if (IfkDeadlineRiched(contest))
             {
-                contest.State = ContestState.Closed;
+                this.Close(id);
 
-                this.Data.SaveChanges();
-
-                return RedirectToAction("Winners", new { closedContest = contest });
+                return RedirectToAction("Details", new { id = id });
             }
-  
+
             var isAllowed = false;
 
             if (contest.ParticipationStrategy == EntryType.Open)
