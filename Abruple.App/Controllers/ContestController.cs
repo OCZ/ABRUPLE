@@ -1,26 +1,29 @@
-﻿using Abruple.App.Hubs;
-using Abruple.App.Models;
-using AutoMapper;
-using Microsoft.AspNet.Identity;
-
-namespace Abruple.App.Controllers
+﻿namespace Abruple.App.Controllers
 {
     using System;
     using System.Linq;
     using System.Web.Mvc;
 
-    using Abruple.Models;
-    using Abruple.Models.Enums;
+    using Microsoft.AspNet.Identity;
+
     using AutoMapper.QueryableExtensions;
 
     using BaseControllers;
     using Common;
     using Data.Contracts;
 
+    using AutoMapper;
+
+    using Models;
+    using Abruple.Models;
+    using Abruple.Models.Enums;
     using Models.BindingModels.Contest;
     using Models.ViewModels.Contest;
     using Models.ViewModels.ContestEntry;
     using PagedList;
+
+
+    using Hubs;
 
     [Authorize]
     public class ContestController : BaseContestController
@@ -35,6 +38,35 @@ namespace Abruple.App.Controllers
         public ActionResult Index()
         {
             return this.View();
+        }
+
+        // GET CONTESTS
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetContests(int entriesToSkip = 0, string filter = "active")
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                return HttpNotFound();
+            }
+
+            const int entriesToLoad = 10;
+            entriesToSkip *= entriesToLoad;
+
+            var totalEntries = this.GetContestsCollection(filter).Count();
+
+            if (entriesToSkip < totalEntries)
+            {
+                var result = this.GetContestsCollection(filter)
+                         .Skip(entriesToSkip)
+                         .Take(entriesToLoad)
+                         .ProjectTo<ContestConciseViewModel>();
+
+
+                return this.PartialView("_contestsListPartial", result);
+            }
+
+            return null;
         }
 
         // NEW CONTEST
@@ -103,34 +135,34 @@ namespace Abruple.App.Controllers
             return this.View("Details", result);
         }
 
-        // NEW CONTEST
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        [HttpPost]
-        public ActionResult NewContest(ModelWrapper model)
-        {
-            if (model.NewContestBindingModel == null)
-            {
-                return this.HttpNotFound();
-            }
+        //// NEW CONTEST
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //[HttpPost]
+        //public ActionResult NewContest(ModelWrapper model)
+        //{
+        //    if (model.NewContestBindingModel == null)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
 
-            if (!this.ModelState.IsValid)
-            {
-                return this.HttpNotFound();
-            }
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
 
-            var contest = Mapper.Map<NewContestBindingModel, Contest>(model.NewContestBindingModel);
-            contest.CreatedOn = DateTime.Now;
-            contest.CreatorId = User.Identity.GetUserId();
+        //    var contest = Mapper.Map<NewContestBindingModel, Contest>(model.NewContestBindingModel);
+        //    contest.CreatedOn = DateTime.Now;
+        //    contest.CreatorId = User.Identity.GetUserId();
 
-            this.Data.Contests.Add(contest);
-            this.Data.SaveChanges();
+        //    this.Data.Contests.Add(contest);
+        //    this.Data.SaveChanges();
 
-            var hub = new ContestsHub();
-            hub.UpdateContest();
+        //    var hub = new ContestsHub();
+        //    hub.UpdateContest();
 
-            return RedirectToAction("Index", "Contest");
-        }
+        //    return RedirectToAction("Index", "Contest");
+        //}
 
         // SEARCH CONTEST
         [HttpGet]
