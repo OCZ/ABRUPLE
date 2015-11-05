@@ -37,33 +37,33 @@ namespace Abruple.App.Controllers
             return this.View();
         }
 
-        // GET CONTESTS
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult GetContests(int entriesToSkip = 0, string filter = "active")
+        // NEW CONTEST
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        [HttpPost]
+        public ActionResult NewContest(NewContestBindingModel model)
         {
-            if (!Request.IsAjaxRequest())
+            if (model == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
 
-            const int entriesToLoad = 10;
-            entriesToSkip *= entriesToLoad;
-
-            var totalEntries = this.GetContestsCollection(filter).Count();
-
-            if (entriesToSkip < totalEntries)
+            if (!this.ModelState.IsValid)
             {
-                var result = this.GetContestsCollection(filter)
-                         .Skip(entriesToSkip)
-                         .Take(entriesToLoad)
-                         .ProjectTo<ContestConciseViewModel>();
-
-
-                return this.PartialView("_contestsListPartial", result);
+                return this.HttpNotFound();
             }
 
-            return null;
+            var contest = Mapper.Map<NewContestBindingModel, Contest>(model);
+            contest.CreatedOn = DateTime.Now;
+            contest.CreatorId = User.Identity.GetUserId();
+
+            this.Data.Contests.Add(contest);
+            this.Data.SaveChanges();
+
+            var hub = new ContestsHub();
+            hub.UpdateContest();
+
+            return RedirectToAction("Index", "Contest");
         }
 
         // GET CONTEST DETAILS
