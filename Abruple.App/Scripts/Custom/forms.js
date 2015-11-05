@@ -28,6 +28,7 @@
                 manipulateElementByDropDownMenu($(this), $("#contest-voting-additional-field"));
                 break;
             case "contest-participation-strategy":
+                manipulateElementByDropDownMenu($(this), $("#contest-participation-additional-field"));
                 break;
         }
     });
@@ -42,6 +43,19 @@
     $("#remove-committee").click(function () {
         if ($("#contest-voting-additional-field").children().length > 4) {
             $("#contest-voting-additional-field").children().last().remove();
+        };
+    });
+
+    // ADD PARTICIPANT LISTENER
+    $("#add-participant").click(function () {
+        $("#contest-participation-additional-field")
+            .append("<input type='text' name='AllowedParticipants[]' class='form-control' placeholder='Username'>");
+    });
+
+    // REMOVE PARTICIPANT LISTENER
+    $("#remove-participant").click(function () {
+        if ($("#contest-participation-additional-field").children().length > 4) {
+            $("#contest-participation-additional-field").children().last().remove();
         };
     });
 });

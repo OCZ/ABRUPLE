@@ -26,6 +26,17 @@
     </select>
 </div>
 
+<div id="contest-participation-additional-field">
+    @*@Html.LabelFor(m => m.NewContestBindingModel.Committee, new { @class = "control-label" })*@
+    <label for="contest-Committee-field">Members which can vote</label>
+
+    <a href="#" id="add-participant" title="Add member" class="btn btn-sm btn-default">+</a>
+    <a href="#" id="remove-participant" title="Remove member" class="btn btn-sm btn-default">-</a>
+
+    @*@Html.TextBoxFor(m => m.NewContestBindingModel.Committee, new { placeholder = "Username", id = "contest-Committee-field", @class = "form-control contest-strategy" })*@
+    <input id="contest-participate-field" type="text" name="AllowedParticipants[]" value="" placeholder="Username" class="form-control contest-strategy" />
+</div>
+
 <div id="contest-voting-field">
     @*@Html.LabelFor(m => m.NewContestBindingModel.VotingStrategy, new { @class = "control-label" })*@
     @*@Html.EnumDropDownListFor(m => m.NewContestBindingModel.VotingStrategy, new { id = "contest-voting-strategy", @class = "form-control contest-strategy" })*@

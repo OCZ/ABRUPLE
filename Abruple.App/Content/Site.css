@@ -100,7 +100,10 @@ textarea {
     /*background: #5cb85c;*/
 }
 
-#ajax-loader, #contest-reward-top-field, #contest-deadline-additional-field, #contest-voting-additional-field {
+#ajax-loader, #contest-reward-top-field,
+#contest-deadline-additional-field, 
+#contest-voting-additional-field,
+#contest-participation-additional-field {
     display: none;
 }
 
