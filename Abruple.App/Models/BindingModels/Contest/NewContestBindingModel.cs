@@ -40,7 +40,7 @@ namespace Abruple.App.Models.BindingModels.Contest
         public DeadlineStrategy DeadlineStrategy { get; set; }
 
         //DEADLINE BY TIME
-        public TimeSpan? TimeSpan { get; set; }
+        public DateTime? EndDate { get; set; }
 
         //DEADLINE BY MAX PARTICIPANTS
         public int? ParticipantCount { get; set; }

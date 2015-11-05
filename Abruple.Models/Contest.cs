@@ -109,7 +109,7 @@
         public DeadlineStrategy DeadlineStrategy { get; set; }
         
         //DEADLINE STRATEGY 
-        public TimeSpan? TimeSpan { get; set; }
+        public DateTime? EndDate { get; set; }
 
         // PARTICIPATION COUNT
         public int? ParticipantCount { get; set; }
