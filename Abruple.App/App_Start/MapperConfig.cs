@@ -38,9 +38,10 @@ namespace Abruple.App.App_Start
                 .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
 
             Mapper.CreateMap<ContestEntry, ContestEntryShortViewModel>()
-               .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
-               .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
-               .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
+              .ForMember(model => model.Author, config => config.MapFrom(contestEntry => contestEntry.Author.UserName))
+              .ForMember(model => model.Contest, config => config.MapFrom(contestEntry => contestEntry.Contest.Title))
+              .ForMember(model => model.ContestState, config => config.MapFrom(contestEntry => contestEntry.Contest.State))
+              .ForMember(model => model.Votes, config => config.MapFrom(contestEntry => contestEntry.Votes.Count));
 
             Mapper.CreateMap<Vote, VoteViewModel>()
                 .ForMember(model => model.Autor, config => config.MapFrom(vote => vote.Author.UserName));

@@ -24,5 +24,8 @@ namespace Abruple.App.Models
         public IPagedList<ContestEntryShortViewModel> ContestEntryShortViewModel { get; set; }
 
         public EditProfileBindingModel EditProfileBindingModel { get; set; }
+
+        public IPagedList<ContestEntryShortViewModel> ContestWinners { get; set; }
+
     }
 }

@@ -84,11 +84,20 @@ namespace Abruple.App.Controllers
                 .ProjectTo<ContestEntryShortViewModel>()
                 .ToPagedList(page ?? GlobalConstants.DefaultStartPage, GlobalConstants.DefaultPageSizeCe); ;
 
+            var winners = this.Data.ContestEntries.All()
+               .Where(ce => ce.ContestId == id)
+               .Where(ce => ce.State == ContestEntryState.Acceppted)
+               .Where(ce => ce.IsWinner == true)
+               .OrderByDescending(e => e.Upploaded)
+               .ProjectTo<ContestEntryShortViewModel>()
+               .ToPagedList(page ?? GlobalConstants.DefaultStartPage, GlobalConstants.DefaultPageSizeCe); ;
+
 
             var result = new ModelWrapper()
             {
                 ContestDetailsViewModel = contest,
-                ContestEntryShortViewModel = entries
+                ContestEntryShortViewModel = entries,
+                ContestWinners = winners
             };
 
             return this.View("Details", result);
@@ -189,34 +198,42 @@ namespace Abruple.App.Controllers
         }
 
         //CLOSE CONTEST => called by button CLOSE
-
-        [HttpGet]
-        public ActionResult Close(int id)
+        //CLOSE CONTEST and set winners
+        [NonAction]
+        public void Close(int id)
         {
             var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
             if (contest == null)
             {
-                return this.HttpNotFound();
+                throw new ArgumentNullException();
             }
             contest.State = ContestState.Closed;
 
             this.Data.SaveChanges();
 
-            return RedirectToAction("Winners", new { closedContest = contest });
+
+            var winnersCount = 1;
+            if (contest.RewardStrategy == RewardStrategy.MultipleWinners)
+            {
+                winnersCount = this.Data.Prizes.All().Count(p => p.ContestId == contest.Id);
+            }
+
+            var contestEntries = this.Data.ContestEntries.All().Where(ce => ce.ContestId == id)
+                .OrderByDescending(ce => ce.Votes.Count)
+                .ThenByDescending(ce => ce.Upploaded)
+                .Take(winnersCount).ToList();
+
+            foreach (ContestEntry t in contestEntries)
+            {
+                t.Win();
+                this.Data.SaveChanges();
+            }
+
+
         }
 
 
-        //SET WINNERS FOR THE CONTEST
-        [HttpGet]
-        public ActionResult Winners(Contest closedContest)
-        {
-           
-            //TODO select winner according to reward strategy
-
-            return null;
-        }
-
-        //Dismiss contest -> called by Ditails button
+       //Dismiss contest -> called by Ditails button
         [HttpGet]
         public ActionResult Dismissed(int id)
         {

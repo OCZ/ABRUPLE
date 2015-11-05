@@ -75,18 +75,20 @@ namespace Abruple.App.Controllers
         }
 
 
-        // GET: GET ContestEntry (not Pending, not Deleted) by id
-        public ActionResult Details(int id)
-        {
-            var entry = this.GetContestEntry(id);
+        //// GET: GET ContestEntry (not Pending, not Deleted) by id
+        //public ActionResult Details(int id)
+        //{
+        //    var entry = this.GetContestEntry(id);
 
-            if (entry == null)
-            {
-                return this.HttpNotFound();
-            }
-            return View(Mapper.Map<ContestEntry, ContestEntryConciseViewModel>(entry));
-        }
+        //    if (entry == null)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
+        //    return View(Mapper.Map<ContestEntry, ContestEntryConciseViewModel>(entry));
+        //}
 
+        //Vote is Called by ContestEntry Details View -> button VOTE
+        //check if user chan VOTE and create Vote
         //Vote is Called by ContestEntry Details View -> button VOTE
         //check if user chan VOTE and create Vote
         [HttpGet]
@@ -100,16 +102,13 @@ namespace Abruple.App.Controllers
                 return this.HttpNotFound();
             }
 
-            ////chek if Contest has to be closed
-            //if (this.IfkDeadlineRiched(entry.ContestId))
-            //{
+            //chek if Contest has to be closed
+            if (this.IfkDeadlineRiched(entry.ContestId))
+            {
 
-            //   entry.Contest.State = ContestState.Closed;
-
-            //    this.Data.SaveChanges();
-
-            //    return RedirectToAction("Winners", "Contest", new { closedContest = entry.Contest });
-            //}
+                this.Close(entry.ContestId);
+                return RedirectToAction("Details", "Contest", new { id = entry.ContestId });
+            }
 
 
             bool votable = false;
@@ -211,6 +210,40 @@ namespace Abruple.App.Controllers
             await jobApplication.SaveAsync().ConfigureAwait(false);
 
             return file.Url.ToString();
+        }
+
+        //CLOSE CONTEST and set winners
+        [NonAction]
+        public void Close(int id)
+        {
+            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
+            if (contest == null)
+            {
+                throw new ArgumentNullException();
+            }
+            contest.State = ContestState.Closed;
+
+            this.Data.SaveChanges();
+
+
+            var winnersCount = 1;
+            if (contest.RewardStrategy == RewardStrategy.MultipleWinners)
+            {
+                winnersCount = this.Data.Prizes.All().Count(p => p.ContestId == contest.Id);
+            }
+
+            var contestEntries = this.Data.ContestEntries.All().Where(ce => ce.ContestId == id)
+                .OrderByDescending(ce => ce.Votes.Count)
+                .ThenByDescending(ce => ce.Upploaded)
+                .Take(winnersCount).ToList();
+
+            foreach (ContestEntry t in contestEntries)
+            {
+                t.Win();
+                this.Data.SaveChanges();
+            }
+
+
         }
     }
 }
