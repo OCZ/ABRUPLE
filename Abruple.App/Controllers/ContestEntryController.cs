@@ -1,4 +1,9 @@
-﻿namespace Abruple.App.Controllers
+﻿using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Parse;
+
+namespace Abruple.App.Controllers
 {
     using System;
     using System.Linq;
@@ -32,10 +37,43 @@
         #endregion
 
         // CREATE CONTEST ENTRY
-        public ActionResult NewEntry(ModelWrapper model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewEntry(ModelWrapper m)
         {
-            return this.Json(model.NewContestEntryBindingModel);
+            if (m.NewContestEntryBindingModel.ImageInputFile == null || m.NewContestEntryBindingModel.ImageInputFile.ContentLength < 1)
+            {
+                return View("Error");
+            }
+            string[] formats = { ".jpg", ".png", ".gif", ".jpeg" };
+
+            if (!formats.Any(f => m.NewContestEntryBindingModel.ImageInputFile.FileName
+                .EndsWith(f, StringComparison.OrdinalIgnoreCase)))
+            {
+                return Content("File is in different format!");
+            }
+
+            var userId = User.Identity.GetUserId();
+
+            var imgUrl = UploadFile(m.NewContestEntryBindingModel);
+
+            var entry = new ContestEntry
+            {
+                Title = m.NewContestEntryBindingModel.Title,
+                ContestId = m.NewContestEntryBindingModel.ContestId,
+                PhotoUrl = imgUrl.Result,
+                AuthorId = userId,
+                Upploaded = DateTime.Now
+            };
+
+           
+            this.Data.ContestEntries.Add(entry);
+
+            this.Data.SaveChanges();
+
+            return RedirectToAction("Details","Contest",new {id = entry.ContestId});
         }
+
 
         // GET: GET ContestEntry (not Pending, not Deleted) by id
         public ActionResult Details(int id)
@@ -149,6 +187,30 @@
             }
 
             return false;
+        }
+
+        [NonAction]
+        public async Task<string> UploadFile(NewContestEntryBindingModel m)
+        {
+            byte[] buffer;
+
+            using (var reader = new BinaryReader(m.ImageInputFile.InputStream))
+            {
+                buffer = reader.ReadBytes(m.ImageInputFile.ContentLength);
+            }
+
+            var file = new ParseFile(m.ImageInputFile.FileName, buffer);
+            await file.SaveAsync().ConfigureAwait(false);
+
+            var jobApplication = new ParseObject("ContestEntries");
+
+            jobApplication["ContestId"] = "";
+            jobApplication["AuthorId"] = "";
+            jobApplication["Picture"] = file;
+
+            await jobApplication.SaveAsync().ConfigureAwait(false);
+
+            return file.Url.ToString();
         }
     }
 }

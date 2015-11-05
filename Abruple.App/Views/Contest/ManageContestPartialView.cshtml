@@ -35,6 +35,7 @@ else
                     </div>
                     <div id="entry-modal-body" class="modal-body">
                         @Html.EditorForModel("NewContestEntryBindingModel")
+                        <input type="hidden" name="NewContestEntryBindingModel.ContestId" value="@Request.Url.Segments.Last()" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" data-target="#create-contest-entry-form-dialog">Cancel</button>
