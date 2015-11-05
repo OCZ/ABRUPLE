@@ -95,14 +95,6 @@
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Parse, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Parse.1.6.1\lib\net45\Parse.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Parse.NetFx45, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Parse.1.6.1\lib\net45\Parse.NetFx45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -249,7 +241,7 @@
     </Compile>
     <Compile Include="Hubs\ContestsHub.cs" />
     <Compile Include="Models\BindingModels\ContestEntry\NewContestEntryBindingModel.cs" />
-    <Compile Include="Models\BindingModels\Profile\EditProfileBindingModel.cs" />
+    <Compile Include="Models\BindingModels\UserImputModel.cs" />
     <Compile Include="Models\ModelWrapper.cs" />
     <Compile Include="Models\BindingModels\Contest\NewContestBindingModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -290,6 +282,7 @@
     <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_adminContestsListPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\custum\forms.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -354,12 +347,6 @@
     <Content Include="Views\Shared\EditorTemplates\NewContestEntryBindingModel.cshtml" />
     <Content Include="Views\Shared\_contestEntryPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\Shared\EditorTemplates\EditProfileBindingModel.cshtml" />
-    <Content Include="Views\Shared\_EditProfilePartial.cshtml" />
-=======
-    <Content Include="Views\Shared\_contestEntryWinnersPartial.cshtml" />
->>>>>>> 85127624cddb2bca188e8eb9cdc77f57cf77f7ad
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ContestEntry\" />

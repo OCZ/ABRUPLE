@@ -13,8 +13,5 @@
         [Required]
         [Display(Name = "Image File")]
         public HttpPostedFileBase ImageInputFile { get; set; }
-
-        [Required]
-        public int ContestId { get; set; }
     }
 }

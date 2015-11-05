@@ -1,6 +1,4 @@
-﻿using Abruple.App.Controllers.BaseControllers;
-
-namespace Abruple.App.Controllers
+﻿namespace Abruple.App.Controllers
 {
     using System;
     using System.Globalization;
@@ -81,11 +79,6 @@ namespace Abruple.App.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            if (UserManager.Users.Where(u => u.UserName == model.Username).Any(u => u.IsBlocked))
-            {
-                return RedirectToAction("Login", "Account", TempData["bannedUser"] = model.Username);
-            }
-
             var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -95,7 +88,7 @@ namespace Abruple.App.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:                   
+                case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);

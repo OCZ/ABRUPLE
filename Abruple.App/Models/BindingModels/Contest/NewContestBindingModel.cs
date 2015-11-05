@@ -25,24 +25,28 @@ namespace Abruple.App.Models.BindingModels.Contest
         [Display(Name = "Who can to vote?")]
         public EntryType VotingStrategy { get; set; }
 
-        //COMITTEE
-        public virtual ICollection<User> Committee { get; set; }
+        // COMITTEE
+        [Display(Name = "Members allowed to vote")]
+        public virtual string[] Committee { get; set; }
 
         // PARTICIPATION STATEGY
         [Display(Name = "Who can to participate?")]
         public EntryType ParticipationStrategy { get; set; }
 
-        //ALLOWED PARTICIPANTS
-        public virtual ICollection<User> AllowedParticipants { get; set; }
+        // ALLOWED PARTICIPANTS
+        [Display(Name = "Members allowed to participate")]
+        public string[] AllowedParticipants { get; set; }
 
         // DEADLINE STRATEGY
         [Display(Name = "When the contest will over?")]
         public DeadlineStrategy DeadlineStrategy { get; set; }
 
-        //DEADLINE BY TIME
+        // DEADLINE BY TIME
+        [Display(Name="Deadline End Date")]
         public DateTime? EndDate { get; set; }
 
-        //DEADLINE BY MAX PARTICIPANTS
+        // DEADLINE BY MAX PARTICIPANTS
+        [Display(Name = "Max Participants")]
         public int? ParticipantCount { get; set; }
 
         // REWARD STRATEGY

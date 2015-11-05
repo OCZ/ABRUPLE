@@ -17,8 +17,6 @@
 
         public string Contest { get; set; }
 
-        public ContestState ContestState { get; set; }
-
         public int Votes { get; set; }
 
     }

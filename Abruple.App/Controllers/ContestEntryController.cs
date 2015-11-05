@@ -1,9 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Parse;
-
-namespace Abruple.App.Controllers
+﻿namespace Abruple.App.Controllers
 {
     using System;
     using System.Linq;
@@ -37,58 +32,23 @@ namespace Abruple.App.Controllers
         #endregion
 
         // CREATE CONTEST ENTRY
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NewEntry(ModelWrapper m)
+        public ActionResult NewEntry(ModelWrapper model)
         {
-            if (m.NewContestEntryBindingModel.ImageInputFile == null || m.NewContestEntryBindingModel.ImageInputFile.ContentLength < 1)
-            {
-                return View("Error");
-            }
-            string[] formats = { ".jpg", ".png", ".gif", ".jpeg" };
-
-            if (!formats.Any(f => m.NewContestEntryBindingModel.ImageInputFile.FileName
-                .EndsWith(f, StringComparison.OrdinalIgnoreCase)))
-            {
-                return Content("File is in different format!");
-            }
-
-            var userId = User.Identity.GetUserId();
-
-            var imgUrl = UploadFile(m.NewContestEntryBindingModel);
-
-            var entry = new ContestEntry
-            {
-                Title = m.NewContestEntryBindingModel.Title,
-                ContestId = m.NewContestEntryBindingModel.ContestId,
-                PhotoUrl = imgUrl.Result,
-                AuthorId = userId,
-                Upploaded = DateTime.Now
-            };
-
-           
-            this.Data.ContestEntries.Add(entry);
-
-            this.Data.SaveChanges();
-
-            return RedirectToAction("Details","Contest",new {id = entry.ContestId});
+            return this.Json(model.NewContestEntryBindingModel);
         }
 
+        // GET: GET ContestEntry (not Pending, not Deleted) by id
+        public ActionResult Details(int id)
+        {
+            var entry = this.GetContestEntry(id);
 
-        //// GET: GET ContestEntry (not Pending, not Deleted) by id
-        //public ActionResult Details(int id)
-        //{
-        //    var entry = this.GetContestEntry(id);
+            if (entry == null)
+            {
+                return this.HttpNotFound();
+            }
+            return View(Mapper.Map<ContestEntry, ContestEntryConciseViewModel>(entry));
+        }
 
-        //    if (entry == null)
-        //    {
-        //        return this.HttpNotFound();
-        //    }
-        //    return View(Mapper.Map<ContestEntry, ContestEntryConciseViewModel>(entry));
-        //}
-
-        //Vote is Called by ContestEntry Details View -> button VOTE
-        //check if user chan VOTE and create Vote
         //Vote is Called by ContestEntry Details View -> button VOTE
         //check if user chan VOTE and create Vote
         [HttpGet]
@@ -102,13 +62,16 @@ namespace Abruple.App.Controllers
                 return this.HttpNotFound();
             }
 
-            //chek if Contest has to be closed
-            if (this.IfkDeadlineRiched(entry.ContestId))
-            {
+            ////chek if Contest has to be closed
+            //if (this.IfkDeadlineRiched(entry.ContestId))
+            //{
 
-                this.Close(entry.ContestId);
-                return RedirectToAction("Details", "Contest", new { id = entry.ContestId });
-            }
+            //   entry.Contest.State = ContestState.Closed;
+
+            //    this.Data.SaveChanges();
+
+            //    return RedirectToAction("Winners", "Contest", new { closedContest = entry.Contest });
+            //}
 
 
             bool votable = false;
@@ -186,64 +149,6 @@ namespace Abruple.App.Controllers
             }
 
             return false;
-        }
-
-        [NonAction]
-        public async Task<string> UploadFile(NewContestEntryBindingModel m)
-        {
-            byte[] buffer;
-
-            using (var reader = new BinaryReader(m.ImageInputFile.InputStream))
-            {
-                buffer = reader.ReadBytes(m.ImageInputFile.ContentLength);
-            }
-
-            var file = new ParseFile(m.ImageInputFile.FileName, buffer);
-            await file.SaveAsync().ConfigureAwait(false);
-
-            var jobApplication = new ParseObject("ContestEntries");
-
-            jobApplication["ContestId"] = "";
-            jobApplication["AuthorId"] = "";
-            jobApplication["Picture"] = file;
-
-            await jobApplication.SaveAsync().ConfigureAwait(false);
-
-            return file.Url.ToString();
-        }
-
-        //CLOSE CONTEST and set winners
-        [NonAction]
-        public void Close(int id)
-        {
-            var contest = this.Data.Contests.All().FirstOrDefault(c => c.Id == id);
-            if (contest == null)
-            {
-                throw new ArgumentNullException();
-            }
-            contest.State = ContestState.Closed;
-
-            this.Data.SaveChanges();
-
-
-            var winnersCount = 1;
-            if (contest.RewardStrategy == RewardStrategy.MultipleWinners)
-            {
-                winnersCount = this.Data.Prizes.All().Count(p => p.ContestId == contest.Id);
-            }
-
-            var contestEntries = this.Data.ContestEntries.All().Where(ce => ce.ContestId == id)
-                .OrderByDescending(ce => ce.Votes.Count)
-                .ThenByDescending(ce => ce.Upploaded)
-                .Take(winnersCount).ToList();
-
-            foreach (ContestEntry t in contestEntries)
-            {
-                t.Win();
-                this.Data.SaveChanges();
-            }
-
-
         }
     }
 }

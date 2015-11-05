@@ -1,33 +1,83 @@
-﻿@*@model Abruple.App.Models.BindingModels.Contest.NewContestBindingModel*@
-@model Abruple.App.Models.ModelWrapper
+﻿@*@model Abruple.App.Models.ModelWrapper*@
+
+<!--TODO: FIX IT TO WORK WITH HELPERS-->
 
 @Html.ValidationSummary("", new { @class = "text-danger" })
 <div>
-    @Html.LabelFor(m => m.NewContestBindingModel.Title, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.NewContestBindingModel.Title, new { @class = "form-control" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.Title, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.NewContestBindingModel.Title, new { placeholder = "Title", @class = "form-control" })*@
+    <label for="form-title">Title</label>
+    <input id="form-title" type="text" class="form-control" name="Title" placeholder="Title" />
 </div>
 
 <div>
-    @Html.LabelFor(m => m.NewContestBindingModel.Description, new { @class = "control-label" })
-    @Html.TextAreaFor(m => m.NewContestBindingModel.Description, new { @class = "form-control" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.Description, new { @class = "control-label" })
+        @Html.TextAreaFor(m => m.NewContestBindingModel.Description, new { placeholder = "Description", @class = "form-control" })*@
+    <label for="form-description">Description</label>
+    <input id="form-description" type="text" name="Description" class="form-control" placeholder="Description" />
 </div>
 
 <div id="contest-participation-field">
-    @Html.LabelFor(m => m.NewContestBindingModel.ParticipationStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.ParticipationStrategy, new { id = "contest-participation-strategy", @class = "form-control contest-strategy" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.ParticipationStrategy, new { @class = "control-label" })
+        @Html.EnumDropDownListFor(m => m.NewContestBindingModel.ParticipationStrategy, new { id = "contest-participation-strategy", @class = "form-control contest-strategy" })*@
+    <label for="contest-participation-strategy">Who can participate?</label>
+    <select id="contest-participation-strategy" name="ParticipationStrategy" class="form-control contest-strategy">
+        <option value="0">Everyone</option>
+        <option value="1">Only choosed members</option>
+    </select>
 </div>
 
 <div id="contest-voting-field">
-    @Html.LabelFor(m => m.NewContestBindingModel.VotingStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.VotingStrategy, new { id = "contest-voting-strategy", @class = "form-control contest-strategy" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.VotingStrategy, new { @class = "control-label" })*@
+    @*@Html.EnumDropDownListFor(m => m.NewContestBindingModel.VotingStrategy, new { id = "contest-voting-strategy", @class = "form-control contest-strategy" })*@
+    <label for="contest-voting-strategy">Who can to vote?</label>
+    <select id="contest-voting-strategy" name="VotingStrategy" class="form-control contest-strategy">
+        <option value="0">Everyone</option>
+        <option value="1">Only choosed members</option>
+    </select>
+</div>
+
+<div id="contest-voting-additional-field">
+    @*@Html.LabelFor(m => m.NewContestBindingModel.Committee, new { @class = "control-label" })*@
+    <label for="contest-Committee-field">Members which can vote</label>
+
+    <a href="#" id="add-committee" title="Add member" class="btn btn-sm btn-default">+</a>
+    <a href="#" id="remove-committee" title="Remove member" class="btn btn-sm btn-default">-</a>
+
+    @*@Html.TextBoxFor(m => m.NewContestBindingModel.Committee, new { placeholder = "Username", id = "contest-Committee-field", @class = "form-control contest-strategy" })*@
+    <input id="contest-Committee-field" type="text" name="Committee[]" value="" placeholder="Username" class="form-control contest-strategy" />
 </div>
 
 <div id="contest-deadline-field">
-    @Html.LabelFor(m => m.NewContestBindingModel.DeadlineStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.DeadlineStrategy, new { id = "contest-deadline-strategy", @class = "form-control contest-strategy" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.DeadlineStrategy, new { @class = "control-label" })*@
+    @*@Html.EnumDropDownListFor(m => m.NewContestBindingModel.DeadlineStrategy, new { id = "contest-deadline-strategy", @class = "form-control contest-strategy" })*@
+    <label for="contest-deadline-strategy">When the event will over?</label>
+    <select id="contest-deadline-strategy" name="DeadlineStrategy" class="form-control contest-strategy">
+        <option value="0">When deadline is reached</option>
+        <option value="1">When maximun players is reached</option>
+    </select>
+</div>
+
+<div id="contest-deadline-additional-field">
+    @*@Html.LabelFor(m => m.NewContestBindingModel.EndDate, new { @class = "control-label" })*@
+    @*@Html.TextBoxFor(m => m.NewContestBindingModel.EndDate, new { type = "Date", id = "contest-deadline-value", @class = "form-control contest-strategy" })*@
+    <label for="contest-deadline-value">Date</label>
+    <input id="contest-deadline-value" type="date" name="EndDate" class="form-control contest-strategy" />
 </div>
 
 <div id="contest-reward-field">
-    @Html.LabelFor(m => m.NewContestBindingModel.RewardStrategy, new { @class = "control-label" })
-    @Html.EnumDropDownListFor(m => m.NewContestBindingModel.RewardStrategy, new { id = "contest-reward-strategy", @class = "form-control contest-strategy" })
+    @*@Html.LabelFor(m => m.NewContestBindingModel.RewardStrategy, new { @class = "control-label" })*@
+    @*@Html.EnumDropDownListFor(m => m.NewContestBindingModel.RewardStrategy, new { id = "contest-reward-strategy", @class = "form-control contest-strategy" })*@
+    <label for="contest-reward-strategy">How many participant wil receive a prize?</label>
+    <select id="contest-reward-strategy" name="RewardStrategy" class="form-control contest-strategy">
+        <option value="0">Just one</option>
+        <option value="1">TOP N</option>
+    </select>
+</div>
+
+<div id="contest-reward-top-field">
+    @*@Html.LabelFor(m => m.NewContestBindingModel.ParticipantCount, new { @class = "control-label" })*@
+    @*@Html.TextBoxFor(m => m.NewContestBindingModel.ParticipantCount, new { type = "number", min = "2", id = "contest-top-field", @class = "form-control contest-strategy" })*@
+    <label for="contest-top-field">Participants maximum</label>
+    <input id="contest-top-field" type="number" min="2" name="ParticipantCount" class="form-control contest-strategy" />
 </div>
