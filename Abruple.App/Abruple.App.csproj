@@ -249,6 +249,7 @@
     </Compile>
     <Compile Include="Hubs\ContestsHub.cs" />
     <Compile Include="Models\BindingModels\ContestEntry\NewContestEntryBindingModel.cs" />
+    <Compile Include="Models\BindingModels\Profile\EditProfileBindingModel.cs" />
     <Compile Include="Models\ModelWrapper.cs" />
     <Compile Include="Models\BindingModels\Contest\NewContestBindingModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -353,6 +354,8 @@
     <Content Include="Views\Shared\EditorTemplates\NewContestEntryBindingModel.cshtml" />
     <Content Include="Views\Shared\_contestEntryPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContestEntryShortViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EditProfileBindingModel.cshtml" />
+    <Content Include="Views\Shared\_EditProfilePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ContestEntry\" />

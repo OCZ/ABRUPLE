@@ -1,4 +1,5 @@
 ﻿using Abruple.App.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Abruple.App.Controllers
 {
@@ -13,6 +14,7 @@ namespace Abruple.App.Controllers
     using Data.Contracts;
     using Models.ViewModels.User;
 
+    [Authorize]
     public class ProfileController : BaseController
     {
 
@@ -51,6 +53,19 @@ namespace Abruple.App.Controllers
             return View(output);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(ModelWrapper m)
+        {
+            var userId = User.Identity.GetUserId();
+
+            //var model = m.EditProfileBindingModel;
+
+            var profile = this.Data.Users.All().FirstOrDefault(u => u.Id == userId);
+            //TODO: Mapping
+
+            return Content("");
+        }
 
     }
 }

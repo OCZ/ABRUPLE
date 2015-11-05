@@ -1,0 +1,9 @@
+﻿@model Abruple.App.Models.ModelWrapper
+           
+@using (Html.BeginForm("EditProfile","Profile"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.AntiForgeryToken()
+    @Html.Partial("EditorTemplates/EditProfileBindingModel");
+    
+}

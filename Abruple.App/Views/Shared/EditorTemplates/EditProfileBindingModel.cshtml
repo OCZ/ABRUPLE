@@ -1,0 +1,31 @@
+﻿@model Abruple.App.Models.ModelWrapper
+
+<div>
+    @Html.LabelFor(m => m.EditProfileBindingModel.FirstName, new {@class = "control-label"})
+    @Html.TextBoxFor(m => m.EditProfileBindingModel.FirstName, new {@class = "form-control"})
+</div>
+
+<div>
+    @Html.LabelFor(m => m.EditProfileBindingModel.LastName, new {@class = "control-label"})
+    @Html.TextBoxFor(m => m.EditProfileBindingModel.LastName, new {@class = "form-control"})
+</div>
+
+<div>
+    @Html.LabelFor(m => m.EditProfileBindingModel.Email, new {@class = "control-label"})
+    @Html.TextBoxFor(m => m.EditProfileBindingModel.Email, new {@class = "form-control"})
+</div>
+
+<div>
+    @Html.LabelFor(m => m.EditProfileBindingModel.Gender, new {@class = "control-label"})
+    @Html.EnumDropDownListFor(m => m.EditProfileBindingModel.Gender, new {@class = "form-control"})
+</div>
+
+<div>
+    @Html.LabelFor(m => m.EditProfileBindingModel.AboutMe, new {@class = "control-label"})
+    @Html.TextAreaFor(m => m.EditProfileBindingModel.AboutMe, new {@class = "form-control"})
+</div>
+
+<div>
+    <input type="submit" class="btn btn-default" value="Edit!"/>
+</div>
+
